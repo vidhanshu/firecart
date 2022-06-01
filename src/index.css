@@ -31,3 +31,19 @@ a{
 a:hover{
   color: var(--text-color);
 }
+
+.red-title{
+  color: red;
+  font-weight: 500;
+  margin-top: 5px;
+}
+.black-title{
+  color: black;
+  font-weight: 500;
+}
+
+.black-title-lg{
+  color: black;
+  font-size: 1.5rem;
+  font-weight: 500;
+}

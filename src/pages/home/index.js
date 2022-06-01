@@ -2,9 +2,14 @@ import { collection, setDoc, doc, getDocs, getDoc, addDoc } from '@firebase/fire
 import React, { useEffect, useState } from 'react'
 import Layout from '../../components/layout'
 import { db } from "../../firebaseconfig";
+import { Link } from "react-router-dom"
+import { useNavigate } from 'react-router-dom';
+
+
 import "./style.css"
 function Home() {
   const [productsData, setProductsData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProducts();
@@ -45,7 +50,7 @@ function Home() {
                     <h4>{prod.sale_price ? prod.sale_price : prod.price} Rs</h4>
                     <div className="btn-group">
                       <button className='btn btn-primary'>Add to cart</button>
-                      <button className='btn btn-primary'>View</button>
+                      <button onClick={() => navigate(`/product-info/${prod._id}`)} className='btn btn-primary'>View</button>
                     </div>
                   </div>
                 </div>
