@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Layout from '../../components/layout'
 import { useParams } from "react-router-dom";
 import { getDoc, doc } from "@firebase/firestore"
 import { db } from "../../firebaseconfig"
 import "./style.css"
 
+import { context } from '../../App';
+
 function ProductInfo() {
   //hook to get the params from path
   const params = useParams();
   const id = params.id;
   const [product, setProduct] = useState({})
+
+  const { addToCart } = useContext(context);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,6 +34,7 @@ function ProductInfo() {
       return { error: "some error occurred!" }
     }
   }
+
 
   const { name, imageURL, category, description, price, sale_price, brand } = product;
 
@@ -54,11 +59,11 @@ function ProductInfo() {
                   <br />
                   sale price: ${sale_price}
                   <br />
-                  <p className='red-title'>limited time offer</p>
+                  <span className='red-title'>limited time offer</span>
                 </p> :
                 <p className='black-title'>price: ${price}</p>
             }
-            <button className="btn btn-primary">Add to cart</button>
+            <button onClick={() => addToCart(product)} className="btn btn-primary">Add to cart</button>
           </div>
 
         </div>

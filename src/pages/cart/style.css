@@ -1,0 +1,45 @@
+.carted-item-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 400px);
+    grid-gap: 1rem;
+    justify-content: center;
+}
+
+.carted-item-card {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 3px;
+    height: 250px;
+}
+
+.carted-item-image {
+    height: 100%;
+    overflow: hidden;
+}
+
+.carted-item-image img {
+    width: 100%;
+    height: 100%;
+}
+
+.carted-item-info {
+    height: 100%;
+    overflow: hidden;
+    padding: 1rem;
+}
+
+
+.no-items-in-cart-image {
+    width: 100%;
+    max-width: 800px;
+    display: block;
+    margin: auto;
+}
+
+.taggy-title-container{
+    display: flex;
+    justify-content: flex-end;
+}

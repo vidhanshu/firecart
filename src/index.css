@@ -9,41 +9,82 @@
 
 body {
   margin: 0;
-  font-family:'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 
-html{
-  --hover-btn:rgb(118, 118, 118);
-  --text-color:rgb(221, 219, 219);
-  --primary:#292727;
+html {
+  --hover-btn: rgb(118, 118, 118);
+  --text-color: rgb(221, 219, 219);
+  --primary: #292727;
 }
 
-a{
+a {
   color: var(--text-color);
   text-decoration: none;
   font-size: 1.2rem;
   margin: .5rem;
 }
 
-a:hover{
+a:hover {
   color: var(--text-color);
 }
 
-.red-title{
+.red-title {
   color: red;
   font-weight: 500;
   margin-top: 5px;
 }
-.black-title{
+
+.black-title {
   color: black;
   font-weight: 500;
 }
 
-.black-title-lg{
+.black-title-lg {
   color: black;
   font-size: 1.5rem;
   font-weight: 500;
+}
+
+.notification-bubble {
+  background-color: rgb(255, 0, 0);
+  position: absolute;
+  top: -10px;
+  right: -15px;
+  padding: 10px;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+
+}
+
+.small-title {
+  font-size: 13px;
+}
+
+.large-title {
+  font-weight: 900;
+  font-size: 3rem;
+  margin-top: 10px;
+  color: var(--primary);
+  text-align: center;
+}
+
+
+.taggy-title {
+  background-color: rgb(252, 224, 175);
+  border: 2px solid rgb(255, 140, 0);
+  color: rgb(255, 140, 0);
+  padding: 5px 10px;
+  font-weight: 500;
+  border-radius: 5px;
+  width: fit-content;
+  margin: 10px;
 }

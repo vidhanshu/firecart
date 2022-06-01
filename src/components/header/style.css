@@ -9,6 +9,8 @@
 .option{
     transition: .3s all;
     font-weight: 300;
+    position: relative;
+    width: fit-content;
 }
 .option:hover{
     text-decoration: underline;
