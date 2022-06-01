@@ -6,6 +6,7 @@ import "./style.css"
 import { AiOutlineDelete } from "react-icons/ai"
 import { Link } from "react-router-dom"
 
+
 function Cart() {
 
   const { cart, removeFromCart } = useContext(context);
@@ -34,7 +35,7 @@ function Cart() {
       </div>
         <div className="carted-item-container">
           {
-            cart.map(({ name, _id, price, sale_price, brand, description, imageURL }) => {
+            cart.map(({ name, _id, price, sale_price, imageURL }) => {
               return (
                 <div key={_id} className="carted-item-card">
                   <div className="carted-item-image">

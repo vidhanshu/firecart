@@ -7,6 +7,8 @@ import ProductInfo from './pages/productInfo'
 import Error from "./pages/404"
 import { createContext } from 'react';
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const context = createContext([]);
 
@@ -14,12 +16,26 @@ function App() {
 
   const [cart, setCart] = useState([]);
 
+  //check if exists
+  const check_if_exist = (key) => {
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i]._id === key) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
   //add to the cart global context
   const addToCart = (data) => {
-    if (!cart.includes(data)) {
+    if (!check_if_exist(data._id)) {
       setCart((current_cart) => {
         return [...current_cart, data];
       })
+      toast.success("added successfully", { autoClose: 10 })
+    } else {
+      toast.error("Already exists in a cart!");
     }
   }
 
@@ -33,6 +49,7 @@ function App() {
       }
     }
     setCart(cart_after_removal);
+    toast.success("deleted successfully!", { autoClose: 10, })
   }
 
   //context
@@ -41,6 +58,13 @@ function App() {
   return (
     <context.Provider value={context_to_be_passed}>
       <div className='App'>
+        <ToastContainer
+          position='top-right'
+          theme='dark'
+          style={{
+            padding: 0,
+          }}
+        />
         <Routes>
           <Route path='/' exact element={<Home />} />
           <Route path='/cart' exact element={<Cart />} />
