@@ -1,0 +1,24 @@
+.logo{
+    font-size: 1.5rem;
+    font-family:"Poppins",sans-serif; 
+
+}
+.logo:hover{
+    font-size: 1.5rem;
+}
+.option{
+    transition: .3s all;
+    font-weight: 300;
+}
+.option:hover{
+    text-decoration: underline;
+}
+
+.nav-bar{
+    background-color: var(--primary);
+    backdrop-filter: blur(20px);
+}
+.sticky-top{
+    position: sticky;
+    top:0;
+}

@@ -1,0 +1,26 @@
+footer {
+    background-color: var(--primary);
+    color: var(--text-color);
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+footer p {
+    text-align: center;
+}
+
+.footerwave{
+    width: 100%;
+    height: 100%;
+}
+.wave{
+    background-color: white;
+    max-height: 500px;
+    overflow: hidden;
+}
+.footer-content{
+    padding: 1.5rem 1.5rem 0rem 1.5rem;
+}
