@@ -11,6 +11,7 @@ function ProductInfo() {
   //hook to get the params from path
   const params = useParams();
   const id = params.id;
+
   const [product, setProduct] = useState({})
 
   const { addToCart } = useContext(context);
@@ -19,7 +20,6 @@ function ProductInfo() {
     const fetchData = async () => {
       setProduct(await getProduct());
     }
-
     fetchData();
 
   }, []);
@@ -28,7 +28,7 @@ function ProductInfo() {
     try {
       const snapshot = await getDoc(doc(db, 'products', id));
       const product_from_firebase = snapshot.data();
-      return product_from_firebase;
+      return { _id: snapshot.id, ...product_from_firebase };
     } catch (error) {
       console.log(error)
       return { error: "some error occurred!" }

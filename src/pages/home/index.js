@@ -109,7 +109,7 @@ function Home() {
       <div className="container">
         <div className="grid">
           {
-            filtered_array.length && filtered_array.map(prod => {
+            (filtered_array.length) ? filtered_array.map(prod => {
               return (
                 <div key={prod._id} className='product-card'>
                   <div className="product-container">
@@ -127,15 +127,15 @@ function Home() {
                   </div>
                 </div>
               )
-            })
+            }) : null
           }
         </div>
         {
-          !filtered_array.length &&
-          <div className="container">
-            <img className=' no-items-in-cart-image no-data-found' src="/nodatafound.jpg" alt="" />
-            <p className="large-title">No data Found!</p>
-          </div>
+          (!filtered_array.length) ?
+            <div className="container">
+              <img className=' no-items-in-cart-image no-data-found' src="/nodatafound.jpg" alt="" />
+              <p className="large-title">No data Found!</p>
+            </div> : null
         }
       </div>
     </Layout>

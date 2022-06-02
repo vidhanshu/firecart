@@ -19,6 +19,7 @@ function App() {
   //check if exists
   const check_if_exist = (key) => {
     for (let i = 0; i < cart.length; i++) {
+      console.log(key);
       if (cart[i]._id === key) {
         return true;
       }
@@ -29,13 +30,14 @@ function App() {
 
   //add to the cart global context
   const addToCart = (data) => {
+    console.log(cart);
     if (!check_if_exist(data._id)) {
       setCart((current_cart) => {
         return [...current_cart, data];
       })
-      toast.success("added successfully", { autoClose: 10 })
+      toast.success("Added successfully", { autoClose: 10 })
     } else {
-      toast.error("Already exists in a cart!");
+      toast.error("Already exists in a cart!",{autoClose:10});
     }
   }
 
