@@ -5,10 +5,9 @@ import { db } from "../../firebaseconfig";
 import { Link } from "react-router-dom"
 import { useNavigate } from 'react-router-dom';
 import { context } from '../../App';
-import containsSpeacialChars from "../../utils/speacial_character"
+import containsSpecialChars from "../../utils/speacial_character"
 import "./style.css"
 import { toast } from 'react-toastify';
-
 function Home() {
 
   //filter state
@@ -25,7 +24,7 @@ function Home() {
 
 
   //context 
-  const { addToCart } = useContext(context);
+  const { addToCart,setIsLoading } = useContext(context);
 
   //fetching the data on first load
   useEffect(() => {
@@ -35,18 +34,20 @@ function Home() {
   //function to fetch the data
   const getProducts = async () => {
     const products = [];
-
+    setIsLoading(true)
     try {
       const snapshots = await getDocs(collection(db, 'products'));
       snapshots.forEach((productSnapshot => {
         products.push({ _id: productSnapshot.id, ...productSnapshot.data() })
       }))
-
+      
       setProductsData(products);
       setFiltered_array(products);
-
+      setIsLoading(false)
+      
     } catch (error) {
       console.log(error)
+      setIsLoading(false)
     }
   }
 
@@ -75,7 +76,7 @@ function Home() {
     let array_after_filter = [];
     const key_word_to_be_searched = evt.target.value.trim().toLowerCase();
 
-    if (containsSpeacialChars(key_word_to_be_searched)) {
+    if (containsSpecialChars(key_word_to_be_searched)) {
       return toast.warning('Braces not allowed!', { autoClose: 2000 });
     }
 

@@ -14,18 +14,19 @@ function ProductInfo() {
 
   const [product, setProduct] = useState({})
 
-  const { addToCart } = useContext(context);
+  const { addToCart, setIsLoading } = useContext(context);
 
   useEffect(() => {
     const fetchData = async () => {
       setProduct(await getProduct());
+      setIsLoading(false);
     }
     fetchData();
-
   }, []);
 
   const getProduct = async () => {
     try {
+      setIsLoading(true);
       const snapshot = await getDoc(doc(db, 'products', id));
       const product_from_firebase = snapshot.data();
       return { _id: snapshot.id, ...product_from_firebase };

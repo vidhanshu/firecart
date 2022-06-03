@@ -1,26 +1,43 @@
-.logo{
+.logo {
     font-size: 1.5rem;
-    font-family:"Poppins",sans-serif; 
+    font-family: "Poppins", sans-serif;
 
 }
-.logo:hover{
+
+.logo:hover {
     font-size: 1.5rem;
 }
-.option{
-    transition: .3s all;
+
+.logout {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1.2rem;
     font-weight: 300;
-    position: relative;
-    width: fit-content;
+    margin: .5rem;
+    cursor: pointer;
 }
-.option:hover{
+
+.logout:hover {
     text-decoration: underline;
 }
 
-.nav-bar{
+.option {
+    font-weight: 300;
+    transition: .3s all;
+    position: relative;
+    width: fit-content;
+}
+
+.option:hover {
+    text-decoration: underline;
+}
+
+.nav-bar {
     background-color: var(--primary);
     backdrop-filter: blur(20px);
 }
-.sticky-top{
+
+.sticky-top {
     position: sticky;
-    top:0;
+    top: 0;
 }

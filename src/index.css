@@ -69,6 +69,13 @@ a:hover {
   font-size: 13px;
 }
 
+.blue-title-with-underline {
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
+  margin: 10px 0px;
+}
+
 .large-title {
   font-weight: 900;
   font-size: 3rem;

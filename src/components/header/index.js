@@ -1,17 +1,32 @@
-import React from 'react';
-import { Link } from "react-router-dom"
+import React, { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom"
 import { Navbar, Nav } from 'react-bootstrap';
 import { AiOutlineShoppingCart } from "react-icons/ai"
 import { useContext } from 'react';
 import { context } from '../../App';
-
-
-import "./style.css"
+import { getAuth, signOut } from "@firebase/auth";
+import { toast } from 'react-toastify';
+import "./style.css";
 
 
 const Header = () => {
-
+    const navigator = useNavigate();
     const { cart } = useContext(context);
+    const auth = getAuth();
+
+    const [current_user, setCurrentUser] = useState(localStorage.getItem("firecart_current_user").substring(0, 9));
+
+    const logout = async () => {
+        try {
+            await signOut(auth);
+            localStorage.setItem(`${process.env.REACT_APP_SECRETE_KEY}`, null);
+            toast.success("Logged out successfully!", { autoClose: 1000 });
+            navigator("/register");
+        } catch (err) {
+            toast.error("Unable to logout!", { autoClose: 1000 });
+        }
+
+    }
 
     return (
         <header className='App tc f3 sticky-top'>
@@ -20,8 +35,8 @@ const Header = () => {
                 <Navbar.Toggle style={{ filter: 'invert(100%)' }} aria-controls="basic-navbar-nav" color="white" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className='ms-auto'>
-                        <Link className='option' to="/">Home</Link>
-                        <Link className='option' to="/login">Logout</Link>
+                        <span className='logout' onClick={logout}>Logout</span>
+                        <Link className='option' to="/profile">{current_user}</Link>
                         <Link className='option' to="/cart">
                             <AiOutlineShoppingCart />
                             <span className="notification-bubble">
