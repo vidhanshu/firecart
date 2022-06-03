@@ -76,7 +76,7 @@ function Authentication() {
         <form className="auth-form">
           <h1 className="black-title-lg">{!isRegisterForm ? `Login Here` : `Register Here`}</h1>
           <hr />
-          <input className='form-control' type="email" placeholder='email' value={email} onChange={evt => setEmail(evt.target.value.trim().toLowerCase())} />
+          <input autoFocus className='form-control' type="email" placeholder='email' value={email} onChange={evt => setEmail(evt.target.value.trim().toLowerCase())} />
           <input className='form-control' type="password" placeholder='password' value={password} onChange={evt => setPassword(evt.target.value.trim())} />
           {isRegisterForm ?
             <input className='form-control' type="password" placeholder='confirm password' value={confirm_password} onChange={evt => setConfirm_password(evt.target.value.trim())} />

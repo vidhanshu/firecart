@@ -9,18 +9,18 @@ import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from "./components/loader"
-import { useNavigate } from 'react-router-dom';
 import Profile from './pages/profile';
 import { auth } from "./firebaseconfig"
+import Admin from './pages/admin';
 
 export const context = createContext([]);
 function App() {
 
+  //complete current cart data
   const [cart, setCart] = useState([]);
-
+  //loading page or not
   const [isLoading, setIsLoading] = useState(false);
-
-  //check if exists
+  //check if item already exists
   const check_if_exist = (key) => {
     for (let i = 0; i < cart.length; i++) {
       console.log(key);
@@ -30,7 +30,8 @@ function App() {
     }
     return false;
   }
-
+  //admin form  
+  const [adminFormOpen, setAdminFormOpen] = useState(true);
 
   //add to the cart global context
   const addToCart = (data) => {
@@ -59,7 +60,7 @@ function App() {
   }
 
   //context
-  const context_to_be_passed = { cart, setCart, addToCart, removeFromCart, setIsLoading };
+  const context_to_be_passed = { cart, setCart, addToCart, removeFromCart, setIsLoading, adminFormOpen, setAdminFormOpen };
 
   return (
     <context.Provider value={context_to_be_passed}>
@@ -77,8 +78,9 @@ function App() {
           <Route path='/cart' exact element={<ProtectedRoutes><Cart /></ProtectedRoutes>} />
           <Route path='/product-info/:id' exact element={<ProtectedRoutes><ProductInfo /></ProtectedRoutes>} />
           <Route path="/profile" exact element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
-          <Route path='/*' exact element={<Error />} />
+          <Route path="/admin/:id" exact element={<Admin />} />
           <Route path='/auth' exact element={<Authentication />} />
+          <Route path='/*' exact element={<Error />} />
         </Routes>
       </div>
     </context.Provider>

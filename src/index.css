@@ -75,6 +75,10 @@ a:hover {
   cursor: pointer;
   margin: 10px 0px;
 }
+.blue-title {
+  color: blue;
+  margin: 20px 0px;
+}
 
 .large-title {
   font-weight: 900;

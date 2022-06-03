@@ -1,0 +1,41 @@
+.admin-form-container {
+    position: fixed;
+    width: 100vw;
+    height: 100%;
+    z-index: calc(2*1000);
+    backdrop-filter: blur(10px);
+    background-color: rgba(0,0,0,.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-form-container input{
+    margin: 10px 0px;
+}
+.admin-form-container input:focus{
+    box-shadow:none;
+}
+.admin-form-container h1{
+    text-align: center;
+}
+.admin-form{
+    background-color: rgb(246, 251, 251);
+    padding:3rem 2rem;
+    border-radius: 3px;
+    position: relative;
+}
+
+.admin-form-container .close{
+    position: absolute;
+    top:10px;
+    right: 10px;
+    font-size: 2rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.admin-form-container .black-title-lg{
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
