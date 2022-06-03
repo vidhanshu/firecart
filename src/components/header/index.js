@@ -14,8 +14,10 @@ const Header = () => {
     const { cart } = useContext(context);
     const auth = getAuth();
 
-    const [current_user, setCurrentUser] = useState(localStorage.getItem("firecart_current_user").substring(0, 9));
-
+    const [current_user, setCurrentUser] = useState();
+    if (localStorage.getItem(`${process.env.REACT_APP_SECRETE_KEY}`)) {
+        setCurrentUser(localStorage.getItem(`${process.env.REACT_APP_SECRETE_KEY}`).substring(0, 9));
+    }
     const logout = async () => {
         try {
             await signOut(auth);
