@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Home from './pages/home';
 import Cart from './pages/cart';
-import Registration from './pages/registration'
+import Authentication from './pages/auth'
 import ProductInfo from './pages/productInfo'
 import Error from "./pages/404"
 import { createContext } from 'react';
@@ -77,7 +77,7 @@ function App() {
           <Route path='/product-info/:id' exact element={<ProtectedRoutes><ProductInfo /></ProtectedRoutes>} />
           <Route path="/profile" exact element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
           <Route path='/*' exact element={<Error />} />
-          <Route path='/register' exact element={<Registration />} />
+          <Route path='/auth' exact element={<Authentication />} />
         </Routes>
       </div>
     </context.Provider>
@@ -91,6 +91,6 @@ export const ProtectedRoutes = ({ children }) => {
   if (localStorage.getItem(`${process.env.REACT_APP_SECRETE_KEY}`) !== 'null') {
     return children;
   } else {
-    return <Navigate to="/register" />
+    return <Navigate to="/auth" />
   }
 }

@@ -5,7 +5,7 @@ import { context } from '../../App';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "@firebase/auth";
 
-function Registration() {
+function Authentication() {
   const [isRegisterForm, setIsRegisterForm] = useState(false);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -55,7 +55,7 @@ function Registration() {
 
   return (
     <div className="auth-main-container">
-      <div className='large-title'>Welcome to <img style={{ width: 40, height: 45, marginRight: 10 }} src="/logo.png" alt='logo' />Firecart</div>
+      <div className='large-title'>Welcome to <div style={{display:"inline-block"}}><img className='logo-img' src="/logo.png" alt='logo' />Firecart</div></div>
       <div className="auth-container container">
         <div className="auth-img">
           <lottie-player
@@ -91,4 +91,4 @@ function Registration() {
   )
 }
 
-export default Registration
+export default Authentication
