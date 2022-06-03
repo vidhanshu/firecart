@@ -11,8 +11,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loader from "./components/loader"
 import { useNavigate } from 'react-router-dom';
 import Profile from './pages/profile';
-export const context = createContext([]);
+import { auth } from "./firebaseconfig"
 
+export const context = createContext([]);
 function App() {
 
   const [cart, setCart] = useState([]);
@@ -87,8 +88,9 @@ function App() {
 export default App;
 
 export const ProtectedRoutes = ({ children }) => {
-  console.log("apple")
-  if (localStorage.getItem(`${process.env.REACT_APP_SECRETE_KEY}`) !== 'null') {
+
+  const user = auth.currentUser;
+  if (user) {
     return children;
   } else {
     return <Navigate to="/auth" />

@@ -19,7 +19,6 @@ const Header = () => {
     const logout = async () => {
         try {
             await signOut(auth);
-            localStorage.setItem(`${process.env.REACT_APP_SECRETE_KEY}`, null);
             toast.success("Logged out successfully!", { autoClose: 1000 });
             navigator("/auth");
         } catch (err) {

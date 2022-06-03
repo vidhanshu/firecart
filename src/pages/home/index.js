@@ -2,7 +2,6 @@ import { collection, setDoc, doc, getDocs, getDoc, addDoc } from '@firebase/fire
 import React, { useEffect, useState, useContext } from 'react'
 import Layout from '../../components/layout'
 import { db } from "../../firebaseconfig";
-import { Link } from "react-router-dom"
 import { useNavigate } from 'react-router-dom';
 import { context } from '../../App';
 import containsSpecialChars from "../../utils/speacial_character"

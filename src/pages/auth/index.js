@@ -3,7 +3,7 @@ import './style.css'
 import { toast } from 'react-toastify';
 import { context } from '../../App';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "@firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, browserSessionPersistence, setPersistence } from "@firebase/auth";
 
 function Authentication() {
   const [isRegisterForm, setIsRegisterForm] = useState(false);
@@ -22,10 +22,12 @@ function Authentication() {
 
   const register = async (evt) => {
     evt.preventDefault();
+    if (email === '' || password === '' || confirm_password === '') {
+      return toast.error("please fill out all details", { autoClose: 2000 })
+    }
     try {
       setIsLoading(true)
-      const user = await createUserWithEmailAndPassword(auth, email, password);
-      localStorage.setItem(`${process.env.REACT_APP_SECRETE_KEY}`, user.user.email);
+      await createUserWithEmailAndPassword(auth, email, password);
       setIsLoading(false);
       navigate('/');
     }
@@ -41,10 +43,17 @@ function Authentication() {
 
   const login = async (evt) => {
     evt.preventDefault();
+    if (email === '' || password === '') {
+      return toast.error("please fill out all details", { autoClose: 2000 })
+    }
     try {
       setIsLoading(true)
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      localStorage.setItem(`${process.env.REACT_APP_SECRETE_KEY}`, user.user.email);
+    console.log(await setPersistence(auth, browserSessionPersistence).then(() => {
+        return signInWithEmailAndPassword(auth, email, password);
+      }).catch((error)=>{
+        console.log(error)
+      }))
+    
       setIsLoading(false)
       navigate('/')
     } catch (err) {
@@ -55,7 +64,7 @@ function Authentication() {
 
   return (
     <div className="auth-main-container">
-      <div className='large-title'>Welcome to <div style={{display:"inline-block"}}><img className='logo-img' src="/logo.png" alt='logo' />Firecart</div></div>
+      <div className='large-title'>Welcome to <div style={{ display: "inline-block" }}><img className='logo-img' src="/logo.png" alt='logo' />Firecart</div></div>
       <div className="auth-container container">
         <div className="auth-img">
           <lottie-player
@@ -81,8 +90,6 @@ function Authentication() {
             isRegisterForm ?
               <p>Already have an account? <span className='blue-title-with-underline' onClick={() => setIsRegisterForm((i) => !i)}>Login</span></p>
               : <p>Don't have and account? <span className='blue-title-with-underline' onClick={() => setIsRegisterForm((i) => !i)}>Register</span></p>
-
-
           }
         </form>
       </div>
