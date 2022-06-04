@@ -5,8 +5,8 @@ import isImage from "../../utils/isImage"
 import findImageNameFromUrl from "../../utils/findImageNameFromUrl";
 import isProfileExists from '../../utils/isProfileImageExists';
 
-import { ref, getDownloadURL, uploadBytesResumable, uploadBytes, deleteObject } from "firebase/storage";
-import { updateDoc, doc } from "firebase/firestore";
+import { ref, getDownloadURL, uploadBytes, deleteObject } from "firebase/storage";
+import { updateDoc, doc, addDoc, setDoc } from "firebase/firestore";
 import { storage, db } from "../../firebaseconfig"
 
 import { toast } from "react-toastify"
@@ -31,6 +31,8 @@ function EditProfileForm() {
         profile_image, setProfile_image,
         setIsEditing,
         email_current_user,
+        setIsCreatingNewProfile,
+        isCreatingNewProfile
     } = useContext(editProfileContext);
 
 
@@ -47,6 +49,7 @@ function EditProfileForm() {
             await updateDoc(doc(db, 'users', email_current_user), {
                 name, email, address, phone
             })
+            setIsEditing(false);
             setIsLoading(false);
         }
         else {
@@ -78,6 +81,8 @@ function EditProfileForm() {
                     await updateDoc(doc(db, 'users', email_current_user), {
                         name, email, address, profile_image: downloadURL, phone
                     })
+                }).catch((error) => {
+                    console.log(error);
                 })
                 setIsLoading(false);
             })
@@ -85,6 +90,53 @@ function EditProfileForm() {
         return true;
     }
 
+    //create new profile
+    const createProfile = async () => {
+        setIsLoading(true);
+        if (check_for_empty()) {
+            toast.error("Please fill all details!", { autoClose: 2000 });
+            setIsLoading(false);
+            return;
+        } else if (imageAsFile === '') {
+            toast.success("creating your profile...!", { autoClose: 2000 })
+            const docRef = await doc(db, `users/${email_current_user}`);
+            await setDoc(docRef, {
+                name, email, address, profile_image: "https://cdn.onlinewebfonts.com/svg/img_574041.png", phone
+            });
+            toast.success("profile created...!", { autoClose: 2000 })
+            setIsLoading(false);
+        } else {
+            toast.success("creating your profile...!", { autoClose: 2000 })
+
+            const storageRef = ref(storage, imageAsFile.name);
+
+            uploadBytes(storageRef, imageAsFile).then(async (snapshot) => {
+
+                //storing the name for getting the download link for image
+                let name_of_the_image_just_uploaded = snapshot.ref.name;
+                const pathRef = ref(storage, name_of_the_image_just_uploaded);
+
+                getDownloadURL(pathRef).then(async (downloadURL) => {
+                    toast.success("profile image uploaded!", { autoClose: 2000 });
+                    setProfile_image(downloadURL);
+                    const docRef = await doc(db, `users/${email_current_user}`);
+                    await setDoc(docRef, {
+                        name, email, address, profile_image: downloadURL, phone
+                    });
+                }).catch((error) => {
+                    console.log(error);
+                })
+            })
+
+            const docRef = await doc(db, `users/${email_current_user}`);
+            await setDoc(docRef, {
+                name, email, address, profile_image, phone
+            });
+            toast.success("profile created...!", { autoClose: 2000 })
+        }
+        setIsLoading(false);
+        setIsCreatingNewProfile(false);
+    }
 
     //for profile image deletion
     const delete_profile_image = async (isPreviousImageDeleted) => {
@@ -158,8 +210,13 @@ function EditProfileForm() {
                     <label htmlFor='address'>address</label>
                     <input id="address" type="text" className='form-control' placeholder='address' value={address} onChange={evt => setAddress(evt.target.value)} />
                     <div className="edit-profile-options">
-                        <button className="btn btn-primary" onClick={(evt) => { evt.preventDefault(); uploadProfile() }}>update</button>
-                        <button className="btn btn-danger" onClick={(evt) => { evt.preventDefault(); cancel_editing() }}>cancel</button>
+                        {!isCreatingNewProfile ?
+                            <>
+                                <button className="btn btn-primary" onClick={(evt) => { evt.preventDefault(); uploadProfile() }}>update</button>
+                                <button className="btn btn-danger" onClick={(evt) => { evt.preventDefault(); cancel_editing() }}>cancel</button>
+                            </>
+                            : <button className="btn btn-primary" onClick={(evt) => { evt.preventDefault(); createProfile() }}>create</button>
+                        }
                     </div>
                 </form>
             </div></>

@@ -13,6 +13,9 @@ export const editProfileContext = createContext();
 
 function Profile() {
 
+    //f user doesn't exist
+    const [isCreatingNewProfile, setIsCreatingNewProfile] = useState(false);
+
     //isEditing?
     const [isEditing, setIsEditing] = useState(false);
 
@@ -44,7 +47,6 @@ function Profile() {
         setIsLoading(true);
         onSnapshot(doc(db, 'users', email_current_user), (snapshot) => {
             const user_data = snapshot.data();
-            // console.log(user_data);
             fill(user_data)
             setIsLoading(false);
         }, (error) => {
@@ -55,14 +57,16 @@ function Profile() {
 
     //fill all the details to the states
     const fill = ({ name, email, phone, address, profile_image } = {}) => {
+        if (name === undefined || email === undefined || address === undefined || phone === undefined) {
+            console.log('apple')
+            return setIsCreatingNewProfile(true);
+        }
         setName(name);
         setEmail(email)
         setPhone(phone)
-        console.log(profile_image)
         setProfile_image(isProfileExists(profile_image) ? profile_image : `https://cdn.onlinewebfonts.com/svg/img_574041.png`);
         setAddress(address);
     }
-
 
     //context to be sent to the edit component
     const context_to_be_provided = {
@@ -73,12 +77,14 @@ function Profile() {
         profile_image, setProfile_image,
         setIsEditing,
         email_current_user,
+        isCreatingNewProfile,
+        setIsCreatingNewProfile
     }
 
     return (
         <>
             <editProfileContext.Provider value={context_to_be_provided}>
-                {isEditing && <EditProfileForm />}
+                {(isEditing || isCreatingNewProfile) && <EditProfileForm />}
             </editProfileContext.Provider>
             <Layout>
                 <div className="profile-container">
@@ -87,7 +93,9 @@ function Profile() {
                             <div className="profile-image">
                                 <a target="_blank" rel="noreferrer" href={profile_image}><img src={profile_image} alt="" /></a>
                             </div>
-                            <button className="btn btn-primary mt-1" onClick={() => setIsEditing(true)}>Edit profile</button>
+                            <button className="btn btn-primary mt-1" onClick={() => setIsEditing(true)}>
+                                Edit profile
+                            </button>
                         </div>
                         <div className="profile-details">
                             <div className="profile-detail">
