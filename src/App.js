@@ -78,7 +78,7 @@ function App() {
           <Route path='/cart' exact element={<ProtectedRoutes><Cart /></ProtectedRoutes>} />
           <Route path='/product-info/:id' exact element={<ProtectedRoutes><ProductInfo /></ProtectedRoutes>} />
           <Route path="/profile" exact element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
-          <Route path="/admin/:id" exact element={<Admin />} />
+          <Route path="/admin/:id" exact element={<ProtectedRoutes><Admin /></ProtectedRoutes>} />
           <Route path='/auth' exact element={<Authentication />} />
           <Route path='/*' exact element={<Error />} />
         </Routes>
@@ -95,7 +95,7 @@ export const ProtectedRoutes = ({ children }) => {
 
   const user_from_local_store = localStorage.getItem('auth_user');
 
-  if (user || user_from_local_store!=='null') {
+  if (user || user_from_local_store !== 'null') {
     return children;
   } else {
     return <Navigate to="/auth" />

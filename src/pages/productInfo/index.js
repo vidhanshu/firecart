@@ -22,6 +22,7 @@ function ProductInfo() {
   const { addToCart, setIsLoading } = useContext(context);
 
   useEffect(() => {
+    console.log("apple")
     const fetchData = async () => {
       setProduct(await getProduct());
       setIsLoading(false);

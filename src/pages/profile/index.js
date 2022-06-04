@@ -10,6 +10,7 @@ import EditProfileForm from '../../components/profile edit';
 export const editProfileContext = createContext();
 
 function Profile() {
+    console.log("apple");
 
     //isEditing?
     const [isEditing, setIsEditing] = useState(false);
@@ -29,6 +30,7 @@ function Profile() {
 
     //fetching the data of the user as soon as component mounts
     useEffect(() => {
+        console.log("apple");
         get_current_user();
         console.log(email_current_user)
     }, []);
@@ -80,7 +82,7 @@ function Profile() {
                     <div className="profile-card">
                         <div className="profile-image-and-edit-option">
                             <div className="profile-image">
-                                <a target="_blank" href={profile_image}><img src={profile_image} alt="" /></a>
+                                <a target="_blank" rel="noreferrer" href={profile_image}><img src={profile_image} alt="" /></a>
                             </div>
                             <button className="btn btn-primary mt-1" onClick={() => setIsEditing(true)}>Edit profile</button>
                         </div>

@@ -36,7 +36,6 @@ function Home() {
     try {
       const q = query(collection(db, "products"), orderBy("createdAt","desc"))
       onSnapshot(q, (querySnapshot) => {
-        console.log(querySnapshot)
         let products = [];
         querySnapshot.forEach((product) => {
           products = [...products, { _id: product.id, ...product.data() }];
