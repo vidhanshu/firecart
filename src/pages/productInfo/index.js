@@ -52,7 +52,7 @@ function ProductInfo() {
       <Layout>
         <div className="container product-info-container">
           <div className="back-container">
-            <div title='back to home' class="normal-back-without-flex" onClick={() => navigate('/')}>
+            <div title='back to home' className="normal-back-without-flex" onClick={() => navigate('/')}>
               <IoMdArrowRoundBack />
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { collection, setDoc, doc, getDocs, getDoc, addDoc } from '@firebase/firestore';
+import { collection, setDoc, doc, getDocs, getDoc, addDoc, onSnapshot, orderBy, query } from '@firebase/firestore';
 import React, { useEffect, useState, useContext } from 'react'
 import Layout from '../../components/layout'
 import { db } from "../../firebaseconfig";
@@ -23,7 +23,7 @@ function Home() {
 
 
   //context 
-  const { addToCart,setIsLoading } = useContext(context);
+  const { addToCart, setIsLoading } = useContext(context);
 
   //fetching the data on first load
   useEffect(() => {
@@ -32,18 +32,19 @@ function Home() {
 
   //function to fetch the data
   const getProducts = async () => {
-    const products = [];
     setIsLoading(true)
     try {
-      const snapshots = await getDocs(collection(db, 'products'));
-      snapshots.forEach((productSnapshot => {
-        products.push({ _id: productSnapshot.id, ...productSnapshot.data() })
-      }))
-      
-      setProductsData(products);
-      setFiltered_array(products);
-      setIsLoading(false)
-      
+      const q = query(collection(db, "products"), orderBy("createdAt","desc"))
+      onSnapshot(q, (querySnapshot) => {
+        console.log(querySnapshot)
+        let products = [];
+        querySnapshot.forEach((product) => {
+          products = [...products, { _id: product.id, ...product.data() }];
+        })
+        setProductsData(products);
+        setFiltered_array(products);
+        setIsLoading(false)
+      })
     } catch (error) {
       console.log(error)
       setIsLoading(false)

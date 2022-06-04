@@ -1,0 +1,130 @@
+.edit-profile-form-container {
+    position: fixed;
+    width: 100vw;
+    height: 100%;
+    z-index: 1200;
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, .7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+
+.edit-profile-form-container input {
+    margin: 10px 0px;
+    width: 100%;
+}
+
+.edit-profile-form-container input:focus {
+    box-shadow: none;
+}
+
+.edit-profile-form-container h1 {
+    text-align: center;
+}
+
+.edit-profile-form {
+    width: 90%;
+    max-width: 500px;
+    background-color: rgb(246, 251, 251);
+    padding: 3rem 2rem;
+    border-radius: 3px;
+    position: relative;
+    margin: 10ex 0px;
+}
+
+.edit-profile-form-container .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 2rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.edit-profile-form-container .black-title-lg {
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.edit-profile-options {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.profile_image_container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: auto;
+    outline: 3px solid rgb(0, 98, 255);
+    outline-offset: 3px;
+}
+
+.profile_image_container img {
+    width: 100%;
+    height: 100%;
+}
+
+.edit-option label {
+    cursor: pointer;
+    background-color: rgb(0, 98, 255);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    outline: 3px solid rgb(0, 98, 255);
+    outline-offset: 2px;
+    transition: .3s all;
+}
+
+.edit-option label:hover {
+    outline: 4px solid rgb(0, 98, 255);
+    outline-offset: 4px;
+}
+
+.delete-option label:hover {
+    outline: 4px solid rgb(236, 19, 19);
+    outline-offset: 4px;
+}
+
+.edit-option #upload {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.delete-option label {
+    cursor: pointer;
+    background-color: rgb(236, 19, 19);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    outline: 3px solid rgb(236, 19, 19);
+    outline-offset: 2px;
+    transition: .3s all;
+}
+
+
+.image-and-option-container {
+    width: fit-content;
+    margin: auto;
+}

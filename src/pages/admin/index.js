@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext, useContext } from 'react'
 import "./style.css"
 import { db } from "../../firebaseconfig";
-import { collection, doc, getDocs, setDoc, updateDoc, deleteDoc } from "@firebase/firestore"
+import { collection, doc, getDocs, setDoc, updateDoc, deleteDoc, onSnapshot, collectionGroup } from "@firebase/firestore"
 import EditProduct from '../../components/admin edit prod';
 import { context } from '../../App';
 import { toast } from "react-toastify"
@@ -36,28 +36,42 @@ function Admin() {
     //all fetched products will be stored here
     const [products, setProducts] = useState([]);
 
-    //for rerendering on updating the data
-    const [updated, setUpdated] = useState(0);
-
-    //for rerendering on updating the data- getting called from the edit component and hence state is getting changed and component is getting rerender resulting in fetching new data from database
-    const isUpdatedFromEditProdComponent = () => {
-        setUpdated(i => i + 1)
-    }
+    
+    /***********************************THIS IS NOW NOT REQUIRED SINCE WE LEARNT THE CONCEPT OF SNAPSHOT**************************** */
+    // //for rerendering on updating the data
+    // const [updated, setUpdated] = useState(0);
+    // //for rerendering on updating the data- getting called from the edit component and hence state is getting changed and component is getting rerender resulting in fetching new data from database
+    // const isUpdatedFromEditProdComponent = () => {
+    //     setUpdated(i => i + 1)
+    // }
+    /***********************************THIS IS NOW NOT REQUIRED SINCE WE LEARNT THE CONCEPT OF SNAPSHOT**************************** */
 
     //fetching as soon as component mounts and data get updated
+
     useEffect(() => {
         setProducts([]);
         fetch_data();
-    }, [updated])
+    }, [])
 
     //fetching all the data from the firestore
     const fetch_data = async () => {
         try {
             setIsLoading(true);
-            const snapshot = await getDocs(collection(db, 'products'));
-            snapshot.forEach((product) => {
-                setProducts(cur => [...cur, { _id: product.id, ...product.data() }])
+
+            onSnapshot(collection(db, 'products'), (querySnapshot) => {
+                let all_products = []
+                querySnapshot.forEach(product => {
+                    all_products = [...all_products, { _id: product.id, ...product.data() }];
+                })
+                setProducts(all_products);
             })
+
+            //this below syntax was non real time doesn't keep watch on updated but above syntax track changes in db
+            // const snapshot = await getDocs(collection(db, 'products'));
+            // snapshot.forEach((product) => {
+            //     setProducts(cur => [...cur, { _id: product.id, ...product.data() }])
+            // })
+
             setIsLoading(false);
         } catch (error) {
             console.log(error);
@@ -95,7 +109,6 @@ function Admin() {
             setIsLoading(true);
             await deleteDoc(doc(db, 'products', id_bhej));
             setIsLoading(false);
-            setUpdated(i => i - 1);
             toast.success("Product Deleted!", { autoClose: 2000 });
         } catch (error) {
             console.log(error)
@@ -118,7 +131,6 @@ function Admin() {
         setBrand,
         _id,
         setIsLoading,
-        isUpdatedFromEditProdComponent,
         newProduct,
         setNewProduct
     }

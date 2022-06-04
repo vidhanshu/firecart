@@ -49,7 +49,7 @@ function Authentication() {
       setIsLoading(true)
       const user = await signInWithEmailAndPassword(auth, email, password);
       //jugad for login of user until he logs out
-      localStorage.setItem("auth_user",user.user.email);
+      localStorage.setItem("auth_user", user.user.email);
       setIsLoading(false)
       navigate('/')
     } catch (err) {

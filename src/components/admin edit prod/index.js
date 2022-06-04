@@ -23,7 +23,6 @@ function EditProduct() {
         setCategory,
         _id,
         setIsLoading,
-        isUpdatedFromEditProdComponent,
         newProduct,
         setNewProduct
     } = useContext(product_context);
@@ -49,8 +48,6 @@ function EditProduct() {
             })
             setIsLoading(false)
             toast.success("data updated successfully!", { autoClose: 2000 })
-            isUpdatedFromEditProdComponent();
-
         } catch (error) {
             console.log(error);
             setIsLoading(false)
@@ -66,14 +63,14 @@ function EditProduct() {
             sale_price,
             category,
             imageURL: image,
-            description
+            description,
+            createdAt: new Date().toUTCString(),
         }
         try {
             setIsLoading(true)
             const snapshot = await addDoc(collection(db, "products"), data);
             console.log(snapshot)
             toast.success("product added", { autoClose: 2000 });
-            isUpdatedFromEditProdComponent();
             setIsLoading(false)
         } catch (error) {
             console.log(error);
