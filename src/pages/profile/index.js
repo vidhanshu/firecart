@@ -6,6 +6,7 @@ import { db } from "../../firebaseconfig"
 import { onSnapshot, doc } from "firebase/firestore";
 import { context } from '../../App';
 import EditProfileForm from '../../components/profile edit';
+import { toast } from 'react-toastify'
 
 export const editProfileContext = createContext();
 
@@ -30,8 +31,11 @@ function Profile() {
 
     //fetching the data of the user as soon as component mounts
     useEffect(() => {
-        console.log(email_current_user)
-        // get_current_user();
+        if (!email_current_user) {
+            get_current_user();
+        } else {
+            toast.error("you are not authenticated!");
+        }
     }, []);
 
 
