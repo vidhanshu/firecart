@@ -31,7 +31,7 @@ function App() {
     return false;
   }
   //admin form  
-  const [adminFormOpen, setAdminFormOpen] = useState(true);
+  const [adminFormOpen, setAdminFormOpen] = useState(false);
 
   //add to the cart global context
   const addToCart = (data) => {
@@ -40,9 +40,9 @@ function App() {
       setCart((current_cart) => {
         return [...current_cart, data];
       })
-      toast.success("Added successfully", { autoClose: 10 })
+      toast.success("Added successfully", { autoClose: 1000 })
     } else {
-      toast.error("Already exists in a cart!", { autoClose: 10 });
+      toast.error("Already exists in a cart!", { autoClose: 1000 });
     }
   }
 
@@ -56,7 +56,7 @@ function App() {
       }
     }
     setCart(cart_after_removal);
-    toast.success("deleted successfully!", { autoClose: 10, })
+    toast.success("deleted successfully!", { autoClose: 1000, })
   }
 
   //context
@@ -92,7 +92,10 @@ export default App;
 export const ProtectedRoutes = ({ children }) => {
 
   const user = auth.currentUser;
-  if (user) {
+
+  const user_from_local_store = localStorage.getItem('auth_user');
+
+  if (user || user_from_local_store!=='null') {
     return children;
   } else {
     return <Navigate to="/auth" />

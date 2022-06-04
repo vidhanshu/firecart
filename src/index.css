@@ -75,6 +75,7 @@ a:hover {
   cursor: pointer;
   margin: 10px 0px;
 }
+
 .blue-title {
   color: blue;
   margin: 20px 0px;
@@ -98,4 +99,33 @@ a:hover {
   border-radius: 5px;
   width: fit-content;
   margin: 10px;
+}
+
+.back {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  font-size: 2rem;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+/*back button*/
+.normal-back-without-flex {
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  font-size: 2rem;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  cursor: pointer;
+}
+.back-container{
+  width: 100%;
 }

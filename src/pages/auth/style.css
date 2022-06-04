@@ -10,12 +10,13 @@
     text-align: center;
     margin-bottom: 50px;
     font-size: 3rem;
+    width: 90%;
 
 }
 
 .auth-container {
     display: grid;
-    grid-template-columns: 1fr 1.4fr;
+    grid-template-columns: repeat(2,1fr);
     place-items: center;
 }
 .logo-img{

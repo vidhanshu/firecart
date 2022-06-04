@@ -4,10 +4,15 @@ import { useParams } from "react-router-dom";
 import { getDoc, doc } from "@firebase/firestore"
 import { db } from "../../firebaseconfig"
 import "./style.css"
-
+import { IoMdArrowRoundBack } from "react-icons/io"
+import { useNavigate } from 'react-router-dom';
 import { context } from '../../App';
 
 function ProductInfo() {
+
+  //manual navigation
+  const navigate = useNavigate();
+
   //hook to get the params from path
   const params = useParams();
   const id = params.id;
@@ -37,7 +42,7 @@ function ProductInfo() {
   }
 
 
-  const { name, imageURL, category, description, price, sale_price, brand } = product;
+  const { name, imageURL, description, price, sale_price, brand } = product;
 
 
   if (product.error) {
@@ -46,6 +51,11 @@ function ProductInfo() {
     return (
       <Layout>
         <div className="container product-info-container">
+          <div className="back-container">
+            <div title='back to home' class="normal-back-without-flex" onClick={() => navigate('/')}>
+              <IoMdArrowRoundBack />
+            </div>
+          </div>
           <p className='black-title'>{name}</p>
           <div className="product-image-container">
             <img src={imageURL} alt="product" />

@@ -38,7 +38,7 @@ function AdminLogin() {
       return setAdminFormOpen(i => !i);
     }
     if (creds.password === password && creds.user === user) {
-      console.log('asoso')
+      setAdminFormOpen(i => !i);
       navigate(`/admin/${creds._id}`);
     }
     console.log("bananna")

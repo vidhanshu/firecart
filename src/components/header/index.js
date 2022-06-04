@@ -20,6 +20,8 @@ const Header = () => {
         try {
             await signOut(auth);
             toast.success("Logged out successfully!", { autoClose: 1000 });
+            //logout from local storage
+            localStorage.setItem("auth_user", null);
             navigator("/auth");
         } catch (err) {
             toast.error("Unable to logout!", { autoClose: 1000 });

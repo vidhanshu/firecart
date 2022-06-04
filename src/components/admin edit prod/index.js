@@ -17,6 +17,8 @@ function EditProduct() {
         description,
         setDescription,
         setIsEditing,
+        brand,
+        setBrand,
         category,
         setCategory,
         _id,
@@ -42,6 +44,7 @@ function EditProduct() {
                 sale_price,
                 description,
                 category,
+                brand,
                 image,
             })
             setIsLoading(false)
@@ -86,13 +89,15 @@ function EditProduct() {
                         Edit the products
                     </p>
                     <label htmlFor='name'>name</label>
-                    <input id='name' type="text" className='form-control' placeholder='name' value={name} onChange={(evt) => setName(evt.target.value)} />
+                    <input autoFocus={true} id='name' type="text" className='form-control' placeholder='name' value={name} onChange={(evt) => setName(evt.target.value)} />
                     <label htmlFor='price'>price</label>
                     <input id='price' type="number" className='form-control' placeholder='price' value={price} onChange={(evt) => setPrice(evt.target.value)} />
                     <label htmlFor='sale_price'>sale Price</label>
                     <input id="sale_price" type="number" className='form-control' placeholder='sale_price' value={sale_price} onChange={(evt) => setSale_price(evt.target.value)} />
                     <label htmlFor='image_url'>image</label>
                     <input id="image_url" type="text" className='form-control' placeholder='image' value={image} onChange={(evt) => setImage(evt.target.value)} />
+                    <label htmlFor='brand'>brand</label>
+                    <input id="brand" type="text" className='form-control' placeholder='brand' value={brand} onChange={(evt) => setBrand(evt.target.value)} />
                     <label htmlFor='category'>category</label>
                     <input id="category" type="text" className='form-control' placeholder='category' value={category} onChange={(evt) => setCategory(evt.target.value)} />
                     <label htmlFor='description'>description</label>

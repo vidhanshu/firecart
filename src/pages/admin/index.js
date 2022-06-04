@@ -5,10 +5,14 @@ import { collection, doc, getDocs, setDoc, updateDoc, deleteDoc } from "@firebas
 import EditProduct from '../../components/admin edit prod';
 import { context } from '../../App';
 import { toast } from "react-toastify"
-
+import { IoMdArrowRoundBack } from "react-icons/io"
+import { useNavigate } from "react-router-dom"
 export const product_context = createContext();
 
 function Admin() {
+
+    //for navigation
+    const navigate = useNavigate();
 
     //isEditing
     const [isEditing, setIsEditing] = useState(false);
@@ -22,6 +26,7 @@ function Admin() {
     const [image, setImage] = useState('');
     const [price, setPrice] = useState(0);
     const [sale_price, setSale_price] = useState(0);
+    const [brand, setBrand] = useState('');
     const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
 
@@ -62,15 +67,26 @@ function Admin() {
     }
 
     //fill the edit form with the current values
-    const fill = ({ _id, name, price, sale_price, imageURL, description, category } = {}) => {
+    const fill = ({ _id, name, price, sale_price, imageURL, description, category, brand } = {}) => {
         set_Id(_id);
         setName(name)
         setImage(imageURL)
         setPrice(price)
         setSale_price(sale_price ? sale_price : '')
+        setBrand(brand);
         setCategory(category);
         setDescription(description)
         setIsEditing(true);
+    }
+    //clear form 
+    const clear = () => {
+        setCategory('');
+        setName('');
+        setPrice(0);
+        setSale_price(0);
+        setBrand('');
+        setDescription('');
+        setImage('');
     }
 
     //deleting the product
@@ -98,6 +114,8 @@ function Admin() {
         setIsEditing,
         category,
         setCategory,
+        brand,
+        setBrand,
         _id,
         setIsLoading,
         isUpdatedFromEditProdComponent,
@@ -116,7 +134,11 @@ function Admin() {
                 <p className="black-title-lg">
                     Edit the products
                 </p>
-                <button className="mb-4 btn btn-primary" onClick={() => setNewProduct(true)}>add new product</button>
+                {/* back button */}
+                <div title='back to home' className="back" onClick={() => navigate('/')}>
+                    <IoMdArrowRoundBack />
+                </div>
+                <button className="mb-4 btn btn-primary" onClick={() => { clear(); setNewProduct(true) }}>add new product</button>
                 {
                     products.map((product) =>
                     (<div key={product._id} className="admin-product">
@@ -130,6 +152,7 @@ function Admin() {
                             <div className="admin-prod-more-info">
                                 <p className="black-title">price: ${product.price}</p>
                                 {product.sale_price && <p className="red-title">sale price: ${product.sale_price}</p>}
+                                <p className="black-title">brand: {product.brand}</p>
                                 <p className="blue-title">category: {product.category}</p>
                                 <p className="admin-prod-description small-title">{product.description}</p>
                             </div>

@@ -10,7 +10,6 @@ function Authentication() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirm_password, setConfirm_password] = useState('')
-  const [rerender, setRerender] = useState(1);
 
   //loading context
   const { setIsLoading } = useContext(context);
@@ -48,12 +47,9 @@ function Authentication() {
     }
     try {
       setIsLoading(true)
-    console.log(await setPersistence(auth, browserSessionPersistence).then(() => {
-        return signInWithEmailAndPassword(auth, email, password);
-      }).catch((error)=>{
-        console.log(error)
-      }))
-    
+      const user = await signInWithEmailAndPassword(auth, email, password);
+      //jugad for login of user until he logs out
+      localStorage.setItem("auth_user",user.user.email);
       setIsLoading(false)
       navigate('/')
     } catch (err) {
@@ -65,7 +61,7 @@ function Authentication() {
   return (
     <div className="auth-main-container">
       <div className='large-title'>Welcome to <div style={{ display: "inline-block" }}><img className='logo-img' src="/logo.png" alt='logo' />Firecart</div></div>
-      <div className="auth-container container">
+      <div className="auth-container">
         <div className="auth-img">
           <lottie-player
             src="https://assets5.lottiefiles.com/packages/lf20_gjmecwii.json" background="transparent"
