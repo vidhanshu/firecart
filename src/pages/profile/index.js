@@ -31,7 +31,7 @@ function Profile() {
 
     //fetching the data of the user as soon as component mounts
     useEffect(() => {
-        if (!email_current_user) {
+        if (email_current_user) {
             get_current_user();
         } else {
             toast.error("you are not authenticated!");
