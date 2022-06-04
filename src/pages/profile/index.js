@@ -7,11 +7,11 @@ import { onSnapshot, doc } from "firebase/firestore";
 import { context } from '../../App';
 import EditProfileForm from '../../components/profile edit';
 import { toast } from 'react-toastify'
+import { auth } from '../../firebaseconfig'
 
 export const editProfileContext = createContext();
 
 function Profile() {
-
 
     //isEditing?
     const [isEditing, setIsEditing] = useState(false);
@@ -26,7 +26,7 @@ function Profile() {
     const [address, setAddress] = useState('please fill details');
     const [profile_image, setProfile_image] = useState('https://cdn.onlinewebfonts.com/svg/img_574041.png');
     //getting the user email which was stored at the time of login from local storage
-    const [email_current_user, set_email_current_user] = useState(localStorage.getItem('auth_user'));
+    const [email_current_user, set_email_current_user] = useState(auth.currentUser.email || localStorage.getItem('auth_user'));
 
 
     //fetching the data of the user as soon as component mounts
