@@ -10,7 +10,7 @@ import EditProfileForm from '../../components/profile edit';
 export const editProfileContext = createContext();
 
 function Profile() {
-    console.log("apple");
+
 
     //isEditing?
     const [isEditing, setIsEditing] = useState(false);
@@ -30,9 +30,8 @@ function Profile() {
 
     //fetching the data of the user as soon as component mounts
     useEffect(() => {
-        console.log("apple");
-        get_current_user();
         console.log(email_current_user)
+        // get_current_user();
     }, []);
 
 
