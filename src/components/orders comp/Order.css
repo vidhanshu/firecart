@@ -1,21 +1,42 @@
 .orders-container {
-    background-color: rgb(245, 245, 245);
     padding: 10px;
     margin: 20px;
     border-radius: 3px;
     display: grid;
+    width: 100%;
+}
+
+.orders-container .black-title-lg{
+    text-align: center;
+}
+
+.order-cover {
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
 }
 
 .order {
-    background-color: rgb(226, 226, 226);
     border-radius: 3px;
     padding: 5px;
     margin: 5px;
+
 }
 
 .orders {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, 300px);
+    place-content: center;
+    grid-gap: 10px;
+    border-radius: 3px;
+}
+
+.items_container {
+    background-color: rgb(249, 249, 249);
+    border: 2px solid rgba(128, 128, 128, 0.263);
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px;
+    height: 100%;
 }
 
 @media (max-width:700px) {

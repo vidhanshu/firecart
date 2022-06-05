@@ -34,21 +34,25 @@ function Profile() {
     const [email_current_user, set_email_current_user] = useState((auth.currentUser ? auth.currentUser.email : localStorage.getItem('auth_user')));
 
 
+    //const total shopping
+    const [total_shopping, setTotal_shopping] = useState(0);
+
+
     //fetching the data of the user as soon as component mounts
     useEffect(() => {
+        
         setIsLoading(true);
-        if (email_current_user) {
-            get_current_user();
-        } else {
-            toast.error("you are not authenticated!");
-        }
-        /****isLoading jugad cause of late state updates****** */
-        const id = setTimeout(() => {
-            setIsLoading(false);
-        }, 3000);
+        get_current_user();
+        
+        //getting updated the loading from orders component
+        
+        // /****isLoading jugad cause of late state updates****** */
+        // const id = setTimeout(() => {
+        //     setIsLoading(false);
+        // }, 3000);
 
-        return () => clearTimeout(id);
-        /****isLoading jugad cause of late state updates****** */
+        // return () => clearTimeout(id);
+        // /****isLoading jugad cause of late state updates****** */
     }, []);
 
 
@@ -65,7 +69,6 @@ function Profile() {
     //fill all the details to the states
     const fill = ({ name, email, phone, address, profile_image } = {}) => {
         if (name === undefined || email === undefined || address === undefined || phone === undefined) {
-            console.log('apple')
             return setIsCreatingNewProfile(true);
         }
         setName(name);
@@ -85,7 +88,8 @@ function Profile() {
         setIsEditing,
         email_current_user,
         isCreatingNewProfile,
-        setIsCreatingNewProfile
+        setIsCreatingNewProfile,
+        setTotal_shopping
     }
 
     return (
@@ -105,7 +109,7 @@ function Profile() {
                                     Edit profile
                                 </button>
                                 <p className='yellow-highlighted-title'>
-                                    total shopping {2000}
+                                    total shopping ${total_shopping}
                                 </p>
                             </div>
                         </div>
@@ -128,7 +132,9 @@ function Profile() {
                             </div>
                         </div>
                     </div>
-                    <Order />
+                    <editProfileContext.Provider value={context_to_be_provided}>
+                        <Order />
+                    </editProfileContext.Provider>
                 </div>
             </Layout>
         </>

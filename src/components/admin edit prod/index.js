@@ -32,9 +32,21 @@ function EditProduct() {
         evt.preventDefault();
         setIsEditing(false);
     }
+
+    //check for empty
+    const isEmpty = () => {
+        const check = [name, image, category, brand, description];
+        return !check.every((field) => (field !== undefined && field !== ''));
+    }
+
     //handle update
     const update = async (evt) => {
         evt.preventDefault();
+        if (isEmpty()) {
+            toast.error('Please fill up all details!', { autoClose: 2000 })
+            return;
+        }
+        setIsEditing(false)
         try {
             setIsLoading(true)
             await updateDoc(doc(db, 'products', _id), {
@@ -42,9 +54,9 @@ function EditProduct() {
                 price,
                 sale_price,
                 description,
+                imageURL: image,
                 category,
                 brand,
-                image,
             })
             setIsLoading(false)
             toast.success("data updated successfully!", { autoClose: 2000 })
@@ -52,11 +64,17 @@ function EditProduct() {
             console.log(error);
             setIsLoading(false)
         }
+
     }
 
     //inserting new product
     const addProduct = async (evt) => {
         evt.preventDefault();
+        if (isEmpty()) {
+            toast.error('Please fill up all details!', { autoClose: 2000 })
+            return;
+        }
+        setNewProduct(false);
         const data = {
             name,
             price,
@@ -68,8 +86,7 @@ function EditProduct() {
         }
         try {
             setIsLoading(true)
-            const snapshot = await addDoc(collection(db, "products"), data);
-            console.log(snapshot)
+            await addDoc(collection(db, "products"), data);
             toast.success("product added", { autoClose: 2000 });
             setIsLoading(false)
         } catch (error) {
@@ -86,19 +103,19 @@ function EditProduct() {
                         Edit the products
                     </p>
                     <label htmlFor='name'>name</label>
-                    <input autoFocus={true} id='name' type="text" className='form-control' placeholder='name' value={name} onChange={(evt) => setName(evt.target.value)} />
-                    <label htmlFor='price'>price</label>
-                    <input id='price' type="number" className='form-control' placeholder='price' value={price} onChange={(evt) => setPrice(evt.target.value)} />
+                    <input autoFocus={true} id='name' type="text" className='form-control' value={name} onChange={(evt) => setName(evt.target.value)} />
+                    <label htmlFor='price' >price</label>
+                    <input min="1" id='price' type="number" className='form-control' value={price} onChange={(evt) => setPrice(evt.target.value)} />
                     <label htmlFor='sale_price'>sale Price</label>
-                    <input id="sale_price" type="number" className='form-control' placeholder='sale_price' value={sale_price} onChange={(evt) => setSale_price(evt.target.value)} />
+                    <input min="1" id="sale_price" type="number" className='form-control' value={sale_price} onChange={(evt) => setSale_price(evt.target.value)} />
                     <label htmlFor='image_url'>image</label>
-                    <input id="image_url" type="text" className='form-control' placeholder='image' value={image} onChange={(evt) => setImage(evt.target.value)} />
+                    <input id="image_url" type="text" className='form-control' value={image} onChange={(evt) => setImage(evt.target.value)} />
                     <label htmlFor='brand'>brand</label>
-                    <input id="brand" type="text" className='form-control' placeholder='brand' value={brand} onChange={(evt) => setBrand(evt.target.value)} />
+                    <input id="brand" type="text" className='form-control' value={brand} onChange={(evt) => setBrand(evt.target.value)} />
                     <label htmlFor='category'>category</label>
-                    <input id="category" type="text" className='form-control' placeholder='category' value={category} onChange={(evt) => setCategory(evt.target.value)} />
+                    <input id="category" type="text" className='form-control' value={category} onChange={(evt) => setCategory(evt.target.value)} />
                     <label htmlFor='description'>description</label>
-                    <textarea id="description" type="text" className='form-control' placeholder='description' value={description} onChange={(evt) => setDescription(evt.target.value)} />
+                    <textarea id="description" type="text" className='form-control' value={description} onChange={(evt) => setDescription(evt.target.value)} />
                     {!newProduct ?
                         <div className="edit-prod-options">
                             <button className="btn btn-primary" onClick={update}>update</button>

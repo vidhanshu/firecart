@@ -24,3 +24,8 @@ footer p {
 .footer-content{
     padding: 1.5rem 1.5rem 0rem 1.5rem;
 }
+
+.footer-detail-container{
+    display: flex;
+    flex-direction: column;
+}

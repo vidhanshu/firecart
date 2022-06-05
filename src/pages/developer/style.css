@@ -1,0 +1,28 @@
+
+
+.redirect {
+    color: white;
+    font-size: 2rem;
+}
+.redirect a{
+    color:black;
+}
+.redirect-icon {
+    margin-left: 10px;
+    cursor: pointer;
+    animation: updown 1s   infinite  ;
+}
+
+@keyframes updown {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}

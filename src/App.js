@@ -1,20 +1,29 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import Home from './pages/home';
+import Shop from './pages/shop';
 import Cart from './pages/cart';
 import Authentication from './pages/auth'
 import ProductInfo from './pages/productInfo'
-import Error from "./pages/404"
-import { createContext } from 'react';
-import { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Loader from "./components/loader"
-import Profile from './pages/profile';
-import { auth } from "./firebaseconfig"
 import Admin from './pages/admin';
 import CheckOut from './pages/checkout';
 import Payment from './pages/payment';
+import Home from './pages/home';
+import Profile from './pages/profile';
+import Error from "./pages/404"
 
+//hooks
+import { createContext } from 'react';
+import { useState } from 'react';
+
+//for toasts
+import { ToastContainer, toast } from 'react-toastify';
+//import once use everywhere toast
+import 'react-toastify/dist/ReactToastify.css';
+//for loading throughout website
+import Loader from "./components/loader"
+//authentication
+import { auth } from "./firebaseconfig"
+import Developer from './pages/developer';
+//global context
 export const context = createContext([]);
 function App() {
 
@@ -62,10 +71,10 @@ function App() {
   }
 
   //context
-  const context_to_be_passed = { cart, setCart, addToCart, removeFromCart, setIsLoading, adminFormOpen, setAdminFormOpen };
+  const context_to_be_send = { cart, setCart, addToCart, removeFromCart, setIsLoading, adminFormOpen, setAdminFormOpen };
 
   return (
-    <context.Provider value={context_to_be_passed}>
+    <context.Provider value={context_to_be_send}>
       <div className='App'>
         <ToastContainer
           position='top-right'
@@ -77,11 +86,14 @@ function App() {
         {isLoading && <Loader />}
         <Routes>
           <Route path='/' exact element={<ProtectedRoutes><Home /></ProtectedRoutes>} />
+          <Route path='/developer' exact element={<ProtectedRoutes><Developer /></ProtectedRoutes>} />
+          <Route path='/shop' exact element={<ProtectedRoutes><Shop /></ProtectedRoutes>} />
           <Route path='/cart' exact element={<ProtectedRoutes><Cart /></ProtectedRoutes>} />
           <Route path='/checkout' exact element={<ProtectedRoutes><CheckOut /></ProtectedRoutes>} />
           <Route path='/payment' exact element={<ProtectedRoutes><Payment /></ProtectedRoutes>} />
           <Route path='/product-info/:id' exact element={<ProtectedRoutes><ProductInfo /></ProtectedRoutes>} />
           <Route path="/profile" exact element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
+          <Route path="/profile:email" exact element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
           <Route path="/admin/:id" exact element={<ProtectedRoutes><Admin /></ProtectedRoutes>} />
           <Route path='/auth' exact element={<Authentication />} />
           <Route path='/*' exact element={<Error />} />
@@ -93,6 +105,8 @@ function App() {
 
 export default App;
 
+
+//protecting the routes by checking if the user is authenticated as soon as we route to the page
 export const ProtectedRoutes = ({ children }) => {
 
   const user = auth.currentUser;

@@ -41,3 +41,9 @@
     position: sticky;
     top: 0;
 }
+.hover-grow{
+    transition: .3s all;
+}
+.hover-grow:hover{
+    transform: scale(1.5);
+}

@@ -61,8 +61,10 @@ function ProductInfo() {
           <div className="product-image-container">
             <img src={imageURL} alt="product" />
           </div>
-          <p className="black-title-lg">Brand: {brand ? brand.toUpperCase() : "unknown"}</p>
-          <p>{description}</p>
+          <div className="brand-container">
+            <p className="black-title-lg">Brand: {brand ? brand.toUpperCase() : "unknown"}</p>
+            <p>{description}</p>
+          </div>
           <div className="price-container">
             {
               sale_price ?

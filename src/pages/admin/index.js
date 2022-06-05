@@ -1,15 +1,23 @@
 import React, { useEffect, useState, createContext, useContext } from 'react'
 import "./style.css"
 import { db } from "../../firebaseconfig";
-import { collection, doc, getDocs, setDoc, updateDoc, deleteDoc, onSnapshot, collectionGroup } from "@firebase/firestore"
+import { collection, doc, orderBy, deleteDoc, onSnapshot, query } from "@firebase/firestore"
 import EditProduct from '../../components/admin edit prod';
 import { context } from '../../App';
 import { toast } from "react-toastify"
 import { IoMdArrowRoundBack } from "react-icons/io"
 import { useNavigate } from "react-router-dom"
+import containsSpecialChars from '../../utils/speacial_character';
 export const product_context = createContext();
 
 function Admin() {
+
+
+    //category filter 
+    const [filter, setFilter] = useState('all');
+
+    //filtered array data 
+    const [filtered_array, setFiltered_array] = useState([]);
 
     //for navigation
     const navigate = useNavigate();
@@ -23,9 +31,9 @@ function Admin() {
     //all details to be edited
     const [_id, set_Id] = useState('');
     const [name, setName] = useState('');
-    const [image, setImage] = useState('');
-    const [price, setPrice] = useState(0);
-    const [sale_price, setSale_price] = useState(0);
+    const [image, setImage] = useState('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png');//default no image preview available image
+    const [price, setPrice] = useState(1);
+    const [sale_price, setSale_price] = useState(1);
     const [brand, setBrand] = useState('');
     const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
@@ -36,7 +44,7 @@ function Admin() {
     //all fetched products will be stored here
     const [products, setProducts] = useState([]);
 
-    
+
     /***********************************THIS IS NOW NOT REQUIRED SINCE WE LEARNT THE CONCEPT OF SNAPSHOT**************************** */
     // //for rerendering on updating the data
     // const [updated, setUpdated] = useState(0);
@@ -49,21 +57,86 @@ function Admin() {
     //fetching as soon as component mounts and data get updated
 
     useEffect(() => {
+        setIsLoading(true);
+        fetch_all_categories();
         setProducts([]);
         fetch_data();
+
+        //for getting all states updated due to late state updates
+        const id = setTimeout(() => {
+            setIsLoading(false);
+        }, 2000)
+
+        return () => clearTimeout(id);
     }, [])
+
+    //re-rendering the component whenever the filter changes by changing the filtered_array
+    useEffect(() => {
+        let array_after_filter = products.filter((prod) => {
+            if (filter !== 'all') {
+                return prod.category === filter;
+            }
+            return true;
+        })
+        setFiltered_array(array_after_filter);
+    }, [filter])
+
+    //filtered array after search
+    const search = (evt) => {
+        let array_after_filter = [];
+        const key_word_to_be_searched = evt.target.value.trim().toLowerCase();
+
+        if (containsSpecialChars(key_word_to_be_searched)) {
+            return toast.warning('Braces not allowed!', { autoClose: 2000 });
+        }
+
+        //creating regular expression in case sensitive
+        const reg = new RegExp(`${key_word_to_be_searched}`, 'i');
+
+        //conditional logic for checking the keyword and category as well
+        array_after_filter = products.filter((({ name, category }) => {
+            if (filter === 'all') {
+                return (reg.test(name));
+            } else {
+                return (reg.test(name) && category === filter);
+            }
+        }))
+
+        setFiltered_array(array_after_filter);
+    }
+
+
+    //filter options
+    const [filter_options, setFiltered_options] = useState([]);
+
+    //fetching all the categories stored in the firestore
+    const fetch_all_categories = () => {
+        onSnapshot(collection(db, "categories"), (snapshot) => {
+            let categories = [];
+            snapshot.forEach((cat) => {
+                categories = [...categories, cat.data().category];
+            })
+            setFiltered_options(categories);
+        })
+    }
+
+
+
+
+
+
 
     //fetching all the data from the firestore
     const fetch_data = async () => {
         try {
-            setIsLoading(true);
-
-            onSnapshot(collection(db, 'products'), (querySnapshot) => {
+            const q = query(collection(db, "products"), orderBy("createdAt", "desc"))
+            onSnapshot(q, (querySnapshot) => {
                 let all_products = []
                 querySnapshot.forEach(product => {
                     all_products = [...all_products, { _id: product.id, ...product.data() }];
                 })
                 setProducts(all_products);
+                setFiltered_array(all_products)
             })
 
             //this below syntax was non real time doesn't keep watch on updated but above syntax track changes in db
@@ -72,10 +145,8 @@ function Admin() {
             //     setProducts(cur => [...cur, { _id: product.id, ...product.data() }])
             // })
 
-            setIsLoading(false);
         } catch (error) {
             console.log(error);
-            setIsLoading(false);
         }
 
     }
@@ -96,11 +167,11 @@ function Admin() {
     const clear = () => {
         setCategory('');
         setName('');
-        setPrice(0);
-        setSale_price(0);
+        setPrice(1);
+        setSale_price(1);
         setBrand('');
         setDescription('');
-        setImage('');
+        setImage('https://bit.ly/3x9dBKX');
     }
 
     //deleting the product
@@ -117,7 +188,7 @@ function Admin() {
     }
 
     //context to  be sent
-    const context_to_be_sent = {
+    const context_to_be_send = {
         name, setName,
         image, setImage,
         sale_price, setSale_price,
@@ -137,11 +208,9 @@ function Admin() {
 
     return (
         <>
-            <product_context.Provider value={context_to_be_sent}>
+            <product_context.Provider value={context_to_be_send}>
                 {(isEditing || newProduct) && <EditProduct />}
             </product_context.Provider>
-
-
             <div className="container py-3">
                 <p className="black-title-lg">
                     Edit the products
@@ -151,32 +220,50 @@ function Admin() {
                     <IoMdArrowRoundBack />
                 </div>
                 <button className="mb-4 btn btn-primary" onClick={() => { clear(); setNewProduct(true) }}>add new product</button>
-                {
-                    products.map((product) =>
-                    (<div key={product._id} className="admin-product">
-                        <div className='admin-prod-details' key={product._id}>
-                            <div className="product-details">
-                                <p className="black-title">{product.name}</p>
-                                <div className="admin-prod-img-container">
-                                    <img src={`${product.imageURL}`} alt="" />
+
+                <div className="search-and-filter-container">
+                    <input placeholder='search...' type="text" onChange={search} />
+
+                    <select defaultValue='all' onChange={(evt) => setFilter(evt.target.value)} className='filter'>
+                        <option>all</option>
+                        {
+                            filter_options.map(option => <option key={option} value={option}>{option}</option>)
+                        }
+                    </select>
+                </div>
+
+                <div className="products-grid">
+                    {
+                        filtered_array.length ? filtered_array.map((product) =>
+                        (<div key={product._id} className="admin-product">
+                            <div className='admin-prod-details' key={product._id}>
+                                <p className="black-title prod-name">{product.name}</p>
+                                <div className="product-details">
+                                    <div className="admin-prod-img-container">
+                                        <img src={`${product.imageURL}`} alt="" />
+                                    </div>
+                                    <div className='admin-prod-options'>
+                                        <button className="btn btn-success" onClick={() => fill(product)}>edit</button>
+                                        <button className="btn btn-danger" onClick={() => delete_product(product._id)}>delete</button>
+                                    </div>
+                                </div>
+                                <div className="admin-prod-more-info">
+                                    <p className="black-title">price: ${product.price}</p>
+                                    {product.sale_price && <p className="red-title">sale price: ${product.sale_price}</p>}
+                                    <p className="black-title">brand: {product.brand}</p>
+                                    <p className="blue-title">category: {product.category}</p>
+                                    <p className="admin-prod-description small-title">{product.description}</p>
                                 </div>
                             </div>
-                            <div className="admin-prod-more-info">
-                                <p className="black-title">price: ${product.price}</p>
-                                {product.sale_price && <p className="red-title">sale price: ${product.sale_price}</p>}
-                                <p className="black-title">brand: {product.brand}</p>
-                                <p className="blue-title">category: {product.category}</p>
-                                <p className="admin-prod-description small-title">{product.description}</p>
+                        </div>
+                        )
+                        ) :
+                            <div className="container">
+                                <img className=' no-items-in-cart-image no-data-found' src="/nodatafound.jpg" alt="" />
+                                <p className="large-title">No data Found!</p>
                             </div>
-                        </div>
-                        <div className='admin-prod-options'>
-                            <button className="btn btn-success" onClick={() => fill(product)}>edit</button>
-                            <button className="btn btn-danger" onClick={() => delete_product(product._id)}>delete</button>
-                        </div>
-                    </div>
-                    )
-                    )
-                }
+                    }
+                </div>
 
             </div>
         </>

@@ -1,19 +1,16 @@
-.container{
+.container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding: 0;
+    width: 100%;
 }
 
 .admin-product {
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    place-items: center;
-    padding: 1rem;
-    margin: 10px;
+    padding: 10px;
     border-radius: 3px;
     box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-    max-width: 700px;
 }
 
 
@@ -28,7 +25,7 @@
 }
 
 .admin-product .admin-prod-more-info {
-    padding: 2rem;
+    padding: 5px;
 }
 
 .admin-product .admin-prod-options {
@@ -46,7 +43,7 @@
 
 @media (max-width:700px) {
     .admin-product {
-        grid-template-columns: repeat(1,1fr);
+        grid-template-columns: repeat(1, 1fr);
         width: 90%;
     }
 
@@ -55,4 +52,55 @@
         flex-direction: row;
         justify-content: space-between;
     }
+}
+
+/*product details*/
+.product-details {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    padding: 10px;
+}
+
+@media (max-width:700px) {
+    .product-details {
+        flex-direction: column;
+    }
+}
+
+.products-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 400px);
+    justify-items: center;
+    align-content: center;
+    grid-gap: 10px;
+    place-content: center;
+}
+
+.admin-prod-description {
+    text-align: justify;
+    width: 370px !important;
+}
+
+@media (max-width:700px) {
+    .product-details {
+        flex-direction: column;
+    }
+
+    .admin-prod-description {
+        text-align: justify;
+        width: 100% !important;
+    }
+}
+
+/*css to equally divide space among all the content inside card*/
+
+.admin-prod-details .prod-name{
+    height: 70px;
+}
+.admin-prod-details .admin-prod-more-info{
+    height: 100%;
 }

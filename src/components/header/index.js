@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom"
 import { Navbar, Nav } from 'react-bootstrap';
-import { AiOutlineShoppingCart } from "react-icons/ai"
+import { AiOutlineShoppingCart, AiOutlineLogout } from "react-icons/ai"
+import { BiUser } from "react-icons/bi"
+import {BsShop} from "react-icons/bs"
 import { useContext } from 'react';
 import { context } from '../../App';
 import { getAuth, signOut } from "@firebase/auth";
@@ -13,8 +15,6 @@ const Header = () => {
     const navigator = useNavigate();
     const { cart } = useContext(context);
     const auth = getAuth();
-
-    const [current_user, setCurrentUser] = useState('you');
 
     const logout = async () => {
         try {
@@ -36,10 +36,11 @@ const Header = () => {
                 <Navbar.Toggle style={{ filter: 'invert(100%)' }} aria-controls="basic-navbar-nav" color="white" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className='ms-auto'>
-                        <span className='logout' onClick={logout}>Logout</span>
-                        <Link className='option' to="/profile">{current_user}</Link>
-                        <Link className='option' to="/cart">
-                            <AiOutlineShoppingCart />
+                        <Link title="shop" className='option hover-grow' to="/shop"><BsShop /></Link>
+                        <span title="logout" className='logout hover-grow' onClick={logout}><AiOutlineLogout /></span>
+                        <Link title="profile" className='option hover-grow' to="/profile"><BiUser /></Link>
+                        <Link title="cart" className='option' to="/cart">
+                            <AiOutlineShoppingCart className='hover-grow' />
                             <span className="notification-bubble">
                                 {cart.length}
                             </span>
