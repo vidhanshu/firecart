@@ -53,3 +53,12 @@
     align-items: center;
     cursor: pointer;
 }
+
+/* order now bottom styles */
+
+.order_now_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}

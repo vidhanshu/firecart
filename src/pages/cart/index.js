@@ -13,15 +13,19 @@ function Cart() {
   //for navigation
   const navigate = useNavigate();
 
+  //for the data of the cart and performing operations on it
   const { cart, removeFromCart } = useContext(context);
 
+  //context late updating problem solution to rerender comp
   const [rerender, setRerender] = useState(0);
 
+  //calculating the total...
   let total_amount = 0;
 
   cart.forEach(e => {
     total_amount += parseFloat(e.sale_price) ? parseFloat(e.sale_price) : parseFloat(e.price);
   })
+  //calculating the total...
 
 
   if (!cart.length) {
@@ -63,7 +67,9 @@ function Cart() {
             })
           }
         </div>
-
+        <div className="order_now_container">
+          <Link to="/checkout"><button className="btn btn-primary">Check Out</button></Link>
+        </div>
       </Layout>
     )
   }

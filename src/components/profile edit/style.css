@@ -117,11 +117,25 @@
     left: 0;
     bottom: 10px;
     transition: .3s all;
-    border:2px solid white;
+    border: 2px solid white;
 }
 
 
 .image-and-option-container {
     width: fit-content;
     margin: auto;
+}
+
+.white-back-button {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    font-size: 2rem;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }

@@ -8,6 +8,7 @@ import { context } from '../../App';
 import EditProfileForm from '../../components/profile edit';
 import { toast } from 'react-toastify'
 import { auth } from '../../firebaseconfig'
+import Order from '../../components/profile page comps/Order'
 
 export const editProfileContext = createContext();
 
@@ -28,31 +29,36 @@ function Profile() {
     const [email, setEmail] = useState('please fill details');
     const [address, setAddress] = useState('please fill details');
     const [profile_image, setProfile_image] = useState('https://cdn.onlinewebfonts.com/svg/img_574041.png');
-    
+
     //getting the user email which was stored at the time of login from local storage
     const [email_current_user, set_email_current_user] = useState((auth.currentUser ? auth.currentUser.email : localStorage.getItem('auth_user')));
 
 
     //fetching the data of the user as soon as component mounts
     useEffect(() => {
+        setIsLoading(true);
         if (email_current_user) {
             get_current_user();
         } else {
             toast.error("you are not authenticated!");
         }
+        /****isLoading jugad cause of late state updates****** */
+        const id = setTimeout(() => {
+            setIsLoading(false);
+        }, 3000);
+
+        return () => clearTimeout(id);
+        /****isLoading jugad cause of late state updates****** */
     }, []);
 
 
     //fetching user data from firestore
     const get_current_user = () => {
-        setIsLoading(true);
         onSnapshot(doc(db, 'users', email_current_user), (snapshot) => {
             const user_data = snapshot.data();
             fill(user_data)
-            setIsLoading(false);
         }, (error) => {
             console.log(error);
-            setIsLoading(false);
         })
     }
 
@@ -117,6 +123,7 @@ function Profile() {
                             </div>
                         </div>
                     </div>
+                    <Order />
                 </div>
             </Layout>
         </>

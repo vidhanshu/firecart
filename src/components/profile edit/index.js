@@ -1,26 +1,31 @@
 import React, { useContext, useState } from 'react'
 import "./style.css"
+import { useNavigate } from 'react-router-dom';
 
 import isImage from "../../utils/isImage"
 import findImageNameFromUrl from "../../utils/findImageNameFromUrl";
 import isProfileExists from '../../utils/isProfileImageExists';
 
 import { ref, getDownloadURL, uploadBytes, deleteObject } from "firebase/storage";
-import { updateDoc, doc, addDoc, setDoc } from "firebase/firestore";
+import { updateDoc, doc, setDoc } from "firebase/firestore";
 import { storage, db } from "../../firebaseconfig"
 
 import { toast } from "react-toastify"
 
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai"
+import { IoMdArrowRoundBack } from "react-icons/io"
 
 import { editProfileContext } from '../../pages/profile'
 import { context } from "../../App"
 
 function EditProfileForm() {
 
+    //const navigate
+    const navigate = useNavigate();
+
     //for setting up loading..
     const { setIsLoading } = useContext(context);
-    //for uploadation of the file 
+    //for uploading of the file 
     const [imageAsFile, setImageAsFile] = useState('');
 
     const {
@@ -40,17 +45,16 @@ function EditProfileForm() {
     //ek image upload krne  k lie ki gai mahabharat
     const uploadProfile = async () => {
 
-        setIsLoading(true);
 
         if (check_for_empty()) {
-            setIsLoading(false);
             return toast.error("Please fill all details!", { autoClose: 2000 });
         } else if (imageAsFile === '') {
+            setIsLoading(true);
+            setIsEditing(false);
             await updateDoc(doc(db, 'users', email_current_user), {
                 name, email, address, phone
             })
-            setIsEditing(false);
-            setIsLoading(false);
+            toast.success("details successfully updated!", { autoClose: 2000 })
         }
         else {
             if (!isImage(imageAsFile.name)) {
@@ -64,8 +68,10 @@ function EditProfileForm() {
 
             const storageRef = ref(storage, imageAsFile.name);
 
-            toast.success("uploading started..", { autoClose: 2000 });
             setIsEditing(false);
+            setIsLoading(true);
+
+            toast.success("uploading started..", { autoClose: 2000 });
             // const uploadTask = uploadBytesResumable(storageRef, imageAsFile);
             uploadBytes(storageRef, imageAsFile).then(async (snapshot) => {
 
@@ -73,6 +79,7 @@ function EditProfileForm() {
                 let name_of_the_image_just_uploaded = snapshot.ref.name;
                 const pathRef = ref(storage, name_of_the_image_just_uploaded);
 
+                toast.success("bas thodasa aur wait!", { autoClose: 2000 });
                 getDownloadURL(pathRef).then(async (downloadURL) => {
                     toast.success("profile image uploaded!", { autoClose: 2000 });
                     // console.log(downloadURL);
@@ -83,10 +90,11 @@ function EditProfileForm() {
                     })
                 }).catch((error) => {
                     console.log(error);
+                    setIsLoading(false);
                 })
-                setIsLoading(false);
             })
         }
+        setIsLoading(false);
         return true;
     }
 
@@ -182,6 +190,9 @@ function EditProfileForm() {
         <>
             <div className='edit-profile-form-container'>
                 <form className='edit-profile-form'>
+                    <div className="white-back-button" onClick={() => navigate('/')}>
+                        <IoMdArrowRoundBack />
+                    </div>
                     <p className="black-title-lg text-center">
                         Edit Profile
                     </p>
