@@ -28,6 +28,7 @@ function Profile() {
     const [email, setEmail] = useState('please fill details');
     const [address, setAddress] = useState('please fill details');
     const [profile_image, setProfile_image] = useState('https://cdn.onlinewebfonts.com/svg/img_574041.png');
+    
     //getting the user email which was stored at the time of login from local storage
     const [email_current_user, set_email_current_user] = useState((auth.currentUser ? auth.currentUser.email : localStorage.getItem('auth_user')));
 
