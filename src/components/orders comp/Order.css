@@ -1,0 +1,27 @@
+.orders-container {
+    background-color: rgb(245, 245, 245);
+    padding: 10px;
+    margin: 20px;
+    border-radius: 3px;
+    display: grid;
+}
+
+.order {
+    background-color: rgb(226, 226, 226);
+    border-radius: 3px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.orders {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width:700px) {
+    .orders {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+}

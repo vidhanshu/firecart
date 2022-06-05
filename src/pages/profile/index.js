@@ -8,7 +8,7 @@ import { context } from '../../App';
 import EditProfileForm from '../../components/profile edit';
 import { toast } from 'react-toastify'
 import { auth } from '../../firebaseconfig'
-import Order from '../../components/profile page comps/Order'
+import Order from '../../components/orders comp/Order'
 
 export const editProfileContext = createContext();
 
@@ -100,9 +100,14 @@ function Profile() {
                             <div className="profile-image">
                                 <a target="_blank" rel="noreferrer" href={profile_image}><img src={profile_image} alt="" /></a>
                             </div>
-                            <button className="btn btn-primary mt-1" onClick={() => setIsEditing(true)}>
-                                Edit profile
-                            </button>
+                            <div className="options-container">
+                                <button className="btn btn-primary mt-1" onClick={() => setIsEditing(true)}>
+                                    Edit profile
+                                </button>
+                                <p className='yellow-highlighted-title'>
+                                    total shopping {2000}
+                                </p>
+                            </div>
                         </div>
                         <div className="profile-details">
                             <div className="profile-detail">

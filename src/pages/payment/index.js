@@ -3,11 +3,18 @@ import Layout from '../../components/layout'
 import { IoMdArrowRoundBack } from "react-icons/io"
 import { useNavigate } from "react-router-dom"
 import "./style.css"
-import { payment_context } from '../cart'
+import { db, auth } from "../../firebaseconfig"
+
+import { setDoc, doc, addDoc, collection, updateDoc, collectionGroup } from 'firebase/firestore'
+
 import { toast } from "react-toastify"
 import { context } from '../../App'
 function Payment() {
     const navigate = useNavigate();
+
+    //getting the user email which was stored at the time of login from local storage
+    const [email_current_user, set_email_current_user] = useState((auth.currentUser ? auth.currentUser.email : localStorage.getItem('auth_user')));
+
 
     //for the data of the cart and performing operations on it
     const { cart, setIsLoading, setCart } = useContext(context);
@@ -16,23 +23,6 @@ function Payment() {
 
     //const loading rerender
     const [loading, setLoading] = useState(0);
-
-    useEffect(() => {
-        setIsLoading(true);
-        const id = setTimeout(() => {
-            setIsLoading(false);
-            if (isPaymentSuccessful) {
-                toast.success("payment successful!", { autoClose: 3000 })
-                setCart([]);
-                navigate("/")
-            }
-        }, 2000)
-
-        return () => {
-            clearTimeout(id);
-        }
-    }, [loading])
-
 
     //calculating the total...
     let total_amount = 0;
@@ -49,6 +39,42 @@ function Payment() {
         navigate("/")
     }
 
+
+
+
+    //placeorder and store data into firestore
+
+    const order_data = {
+        no_of_items: cart.length,
+        ordered_at: new Date().toUTCString(),
+        total_price: total_amount,
+        ordered_items: cart.map(prod => prod.name)
+    }
+
+
+
+
+    useEffect(() => {
+        setIsLoading(true);
+        const id = setTimeout(async () => {
+            setIsLoading(false);
+            if (isPaymentSuccessful) {
+                toast.success("payment successful!", { autoClose: 3000 })
+                toast.success("products will be delivered within 1/0 days!", { autoClose: 3000 })
+                setCart([]);
+                navigate("/")
+            }
+        }, 2000)
+
+        return () => {
+            clearTimeout(id);
+        }
+    }, [loading])
+
+
+    const place_order = async () => {
+        await addDoc(collection(db, "orders", email_current_user, "my_orders"), order_data);
+    }
 
     return (
         <>
@@ -68,6 +94,7 @@ function Payment() {
                     <button className="btn btn-primary" onClick={() => {
                         setIspaymentSuccessful(true);
                         setLoading(i => i + 1);
+                        place_order()
                     }}>pay now</button>
                 </div>
             </Layout>

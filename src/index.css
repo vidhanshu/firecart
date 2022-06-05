@@ -62,7 +62,6 @@ a:hover {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-
 }
 
 .small-title {
@@ -78,6 +77,25 @@ a:hover {
 
 .blue-title {
   color: blue;
+  margin: 20px 0px;
+}
+
+.yellow-highlighted-title {
+  color: rgb(255, 42, 0);
+  font-weight: 500;
+  background-color: rgb(246, 232, 206);
+  padding: 5px;
+  border-radius: 3px;
+  margin: 4px;
+  box-shadow: 0px 0px 3px  rgb(255, 42, 0);
+}
+
+.btn {
+  margin: 4px;
+}
+
+.green-title {
+  color: rgb(1, 179, 48);
   margin: 20px 0px;
 }
 
@@ -122,10 +140,11 @@ a:hover {
   width: 35px;
   height: 35px;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
   cursor: pointer;
 }
-.back-container{
+
+.back-container {
   width: 100%;
 }
