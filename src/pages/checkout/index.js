@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState, createContext } from 'react'
 import Layout from '../../components/layout'
 import { IoMdArrowRoundBack } from "react-icons/io"
-import { useNavigate } from "react-router-dom"
-import { getDoc, doc, onSnapshot } from "firebase/firestore"
+import { useNavigate, Link } from "react-router-dom"
+import { doc, onSnapshot } from "firebase/firestore"
 import { db, auth } from "../../firebaseconfig"
 import { context } from '../../App'
 import { toast } from 'react-toastify'
@@ -47,7 +47,7 @@ function CheckOut() {
         /****isLoading jugad cause of late state updates****** */
         const id = setTimeout(() => {
             setIsLoading(false);
-        }, 3000);
+        }, 2000);
 
         return () => clearTimeout(id);
         /****isLoading jugad cause of late state updates****** */
@@ -118,7 +118,7 @@ function CheckOut() {
                 }
             </div>
             <div className="edit-profile-options">
-                <button className="btn btn-primary" onClick={(evt) => { }}>Proceed to pay</button>
+                <Link to="/payment"><button className="btn btn-primary">Proceed to pay</button></Link>
             </div>
         </Layout >
     )

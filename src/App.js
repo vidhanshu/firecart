@@ -13,6 +13,7 @@ import Profile from './pages/profile';
 import { auth } from "./firebaseconfig"
 import Admin from './pages/admin';
 import CheckOut from './pages/checkout';
+import Payment from './pages/payment';
 
 export const context = createContext([]);
 function App() {
@@ -78,6 +79,7 @@ function App() {
           <Route path='/' exact element={<ProtectedRoutes><Home /></ProtectedRoutes>} />
           <Route path='/cart' exact element={<ProtectedRoutes><Cart /></ProtectedRoutes>} />
           <Route path='/checkout' exact element={<ProtectedRoutes><CheckOut /></ProtectedRoutes>} />
+          <Route path='/payment' exact element={<ProtectedRoutes><Payment /></ProtectedRoutes>} />
           <Route path='/product-info/:id' exact element={<ProtectedRoutes><ProductInfo /></ProtectedRoutes>} />
           <Route path="/profile" exact element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
           <Route path="/admin/:id" exact element={<ProtectedRoutes><Admin /></ProtectedRoutes>} />

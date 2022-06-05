@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { createContext, useState } from 'react'
 import Layout from '../../components/layout'
 import { context } from "../../App"
 import { useContext } from "react"
@@ -7,6 +7,9 @@ import { AiOutlineDelete } from "react-icons/ai"
 import { Link } from "react-router-dom"
 import { IoMdArrowRoundBack } from "react-icons/io"
 import { useNavigate } from "react-router-dom"
+
+
+export const payment_context = createContext();
 
 function Cart() {
 
@@ -22,11 +25,17 @@ function Cart() {
   //calculating the total...
   let total_amount = 0;
 
-  cart.forEach(e => {
-    total_amount += parseFloat(e.sale_price) ? parseFloat(e.sale_price) : parseFloat(e.price);
-  })
+  const compute_total = () => {
+    cart.forEach(e => {
+      total_amount += parseFloat(e.sale_price) ? parseFloat(e.sale_price) : parseFloat(e.price);
+    })
+  }
+  compute_total();
   //calculating the total...
 
+  const context_to_be_send = {
+    total_amount, compute_total
+  }
 
   if (!cart.length) {
     return (
@@ -42,35 +51,37 @@ function Cart() {
     )
   } else {
     return (
-      <Layout >
-        <div className="taggy-title-container">
-          <div className='normal-back' onClick={() => navigate('/')}>
-            <IoMdArrowRoundBack />
+      <payment_context.Provider value={context_to_be_send}>
+        <Layout >
+          <div className="taggy-title-container">
+            <div className='normal-back' onClick={() => navigate('/')}>
+              <IoMdArrowRoundBack />
+            </div>
+            <div className="taggy-title">total: $ {total_amount}</div>
           </div>
-          <div className="taggy-title">total: $ {total_amount}</div>
-        </div>
-        <div className="carted-item-container">
-          {
-            cart.map(({ name, _id, price, sale_price, imageURL }) => {
-              return (
-                <div key={_id} className="carted-item-card">
-                  <div className="carted-item-image">
-                    <Link to={`/product-info/${_id}`}><img src={imageURL} alt="" /></Link>
+          <div className="carted-item-container">
+            {
+              cart.map(({ name, _id, price, sale_price, imageURL }) => {
+                return (
+                  <div key={_id} className="carted-item-card">
+                    <div className="carted-item-image">
+                      <Link to={`/product-info/${_id}`}><img src={imageURL} alt="" /></Link>
+                    </div>
+                    <div className="carted-item-info">
+                      <p className='small-title'>{name}</p>
+                      <p className='small-title'>price: ${sale_price ? sale_price : price}</p>
+                      <button onClick={() => { removeFromCart(_id); setRerender(i => i + 1) }} className="btn btn-danger"><AiOutlineDelete /></button>
+                    </div>
                   </div>
-                  <div className="carted-item-info">
-                    <p className='small-title'>{name}</p>
-                    <p className='small-title'>price: ${sale_price ? sale_price : price}</p>
-                    <button onClick={() => { removeFromCart(_id); setRerender(i => i + 1) }} className="btn btn-danger"><AiOutlineDelete /></button>
-                  </div>
-                </div>
-              )
-            })
-          }
-        </div>
-        <div className="order_now_container">
-          <Link to="/checkout"><button className="btn btn-primary">Check Out</button></Link>
-        </div>
-      </Layout>
+                )
+              })
+            }
+          </div>
+          <div className="order_now_container">
+            <Link to="/checkout"><button className="btn btn-primary">Check Out</button></Link>
+          </div>
+        </Layout>
+      </payment_context.Provider>
     )
   }
 }
