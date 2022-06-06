@@ -35,6 +35,7 @@ function Payment() {
     compute_total();
 
     if (total_amount === 0) {
+        setIsLoading(false);
         toast.warning("please add to cart something!")
         navigate("/")
     }

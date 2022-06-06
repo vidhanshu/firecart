@@ -18,6 +18,9 @@ import { IoMdArrowRoundBack } from "react-icons/io"
 import { editProfileContext } from '../../pages/profile'
 import { context } from "../../App"
 
+//animation
+import { motion } from "framer-motion"
+
 function EditProfileForm() {
 
     //const navigate
@@ -189,8 +192,20 @@ function EditProfileForm() {
     return (
         <>
             <div className='edit-profile-form-container'>
-                <form className='edit-profile-form'>
-                    <div className="white-back-button" onClick={() => navigate('/')}>
+                <motion.form className='edit-profile-form'
+                    initial={{
+                        scale: 0,
+                    }}
+                    animate={{
+                        scale: 1,
+                    }}
+                    transition={{
+                        delay:.2,
+                        type:"spring",
+                        stiffness:200,
+                    }}
+                >
+                    <div className="white-back-button" onClick={() => setIsEditing(false)}>
                         <IoMdArrowRoundBack />
                     </div>
                     <p className="black-title-lg text-center">
@@ -229,7 +244,7 @@ function EditProfileForm() {
                             : <button className="btn btn-primary" onClick={(evt) => { evt.preventDefault(); createProfile() }}>create</button>
                         }
                     </div>
-                </form>
+                </motion.form>
             </div></>
 
     )

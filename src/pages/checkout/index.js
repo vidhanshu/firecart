@@ -8,6 +8,7 @@ import { context } from '../../App'
 import { toast } from 'react-toastify'
 import CheckOutDetailsEditForm from '../../components/check out page form'
 import "./style.css"
+import {motion} from 'framer-motion';
 export const checkoutcontext = createContext();
 
 function CheckOut() {

@@ -1,7 +1,32 @@
-.back_container{
+.back_container {
     max-width: 700px;
     margin: auto;
-    padding: 1rem;
+    padding: 10px;
     border-radius: 3px;
-    background-color: rgb(246, 243, 243);
+    background-color: rgb(249, 249, 249);
+}
+
+
+
+.back_container input {
+    margin: 5px 0px;
+    width: 100%;
+    padding: 5px 5px;
+    border-radius: 3px;
+    border: none;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, .3);
+    transition: .3s all;
+}
+
+.back_container input:focus {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
+}
+
+
+.back_container .black-title-lg {
+    font-weight: 600;
+}
+
+.current_details .profile-detail{
+    background-color: rgb(223, 223, 223);
 }

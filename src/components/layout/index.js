@@ -5,7 +5,6 @@ import "./style.css"
 import { context } from '../../App'
 import AdminLogin from '../adminLogin'
 
-
 function Layout({ children }) {
 
     const { adminFormOpen } = useContext(context);

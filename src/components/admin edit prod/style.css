@@ -38,7 +38,7 @@
     padding: 10px;
     border-radius: 3px;
     position: relative;
-    margin:10px auto;
+    margin: 10px auto;
 }
 
 .edit-prod-form-container .close {
@@ -63,4 +63,16 @@
 
 .admin-prod-description {
     width: 100%;
+}
+
+@media (max-width:700px) {
+
+    .edit-prod-form-container input {
+        padding: 2px;
+    }
+
+    .edit-prod-form-container .black-title-lg {
+        font-weight: 600;
+        font-size: 20px;
+    }
 }

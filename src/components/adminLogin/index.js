@@ -5,6 +5,10 @@ import { GrFormSubtract } from 'react-icons/gr'
 import { getDoc, doc, collection } from "@firebase/firestore";
 import { db } from '../../firebaseconfig';
 import { useNavigate } from 'react-router-dom';
+
+//animation
+import { motion } from "framer-motion"
+
 function AdminLogin() {
 
   const navigate = useNavigate();
@@ -42,15 +46,27 @@ function AdminLogin() {
 
   return (
     <div className="admin-form-container">
-      <form onSubmit={verify} className='admin-form'>
-      <GrFormSubtract className='close' onClick={() => setAdminFormOpen(i => !i)}  />
+      <motion.form onSubmit={verify} className='admin-form'
+        initial={{
+          scale: 0,
+        }}
+        animate={{
+          scale: 1,
+        }}
+        transition={{
+          delay: .2,
+          type: "spring",
+          stiffness: 200,
+        }}
+      >
+        <GrFormSubtract className='close' onClick={() => setAdminFormOpen(i => !i)} />
         <div className="black-title-lg">Congratulations</div>
         <div className="black-title"> You found hidden feature</div>
         <div className="black-title">It's admin panel !</div>
         <input value={user} onChange={evt => setUser(evt.target.value)} className='form-control' type="text" placeholder='username' />
         <input value={password} onChange={evt => setPassword(evt.target.value)} className='form-control' type="password" placeholder='password' />
         <button className="btn btn-primary">login</button>
-      </form>
+      </motion.form>
     </div>
   )
 }

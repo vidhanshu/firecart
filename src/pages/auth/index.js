@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { context } from '../../App';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, browserSessionPersistence, setPersistence } from "@firebase/auth";
-
+import {motion} from 'framer-motion'
 function Authentication() {
   const [isRegisterForm, setIsRegisterForm] = useState(false);
   const [email, setEmail] = useState('')
@@ -59,7 +59,19 @@ function Authentication() {
   }
 
   return (
-    <div className="auth-main-container">
+    <motion.div className="auth-main-container"
+      initial={{
+        x: '100vw',
+      }}
+      animate={{
+        x: 0,
+      }}
+      transition={{
+        delay: 0,
+        type: "tween",
+        stiffness: 0
+      }}
+    >
       <div className='large-title'>Welcome to <div style={{ display: "inline-block" }}><img className='logo-img' src="/logo.png" alt='logo' />Firecart</div></div>
       <div className="auth-container">
         <div className="auth-img">
@@ -89,7 +101,7 @@ function Authentication() {
           }
         </form>
       </div>
-    </div>
+    </motion.div>
 
   )
 }

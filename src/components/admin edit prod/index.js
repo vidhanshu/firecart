@@ -6,6 +6,9 @@ import { collection, addDoc, doc, updateDoc } from "@firebase/firestore"
 
 import { toast } from "react-toastify"
 
+//animation
+import { motion } from "framer-motion"
+
 function EditProduct() {
 
     //getting all required context
@@ -98,7 +101,19 @@ function EditProduct() {
     return (
         <>
             <div className='edit-prod-form-container'>
-                <form className='edit-prod-form'>
+                <motion.form className='edit-prod-form'
+                    initial={{
+                        scale: 0,
+                    }}
+                    animate={{
+                        scale: 1,
+                    }}
+                    transition={{
+                        delay: .2,
+                        type: "spring",
+                        stiffness: 120,
+                    }}
+                >
                     <p className="black-title-lg text-center">
                         Edit the products
                     </p>
@@ -126,7 +141,7 @@ function EditProduct() {
                             <button className="btn btn-danger" onClick={() => setNewProduct(false)}>cancel</button>
                         </div>
                     }
-                </form>
+                </motion.form>
             </div></>
 
     )
