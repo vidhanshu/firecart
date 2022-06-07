@@ -112,8 +112,7 @@ function EditPost({ type }) {
                 }}
                 transition={{
                     delay: .2,
-                    type: "spring",
-                    stiffness: 120,
+                    type: "tween",
                 }}
             >
                 <p className="black-title-lg text-center">
@@ -134,9 +133,12 @@ function EditPost({ type }) {
                 <label htmlFor='description'>description</label>
                 <textarea id="description" type="text" className='form-control' value={description} onChange={(evt) => setDescription(evt.target.value)} />
                 <div className="edit-prod-options">
-                    {type === "post" ?
+                    {type !== "post" ?
                         <button className="btn btn-primary" onClick={addPost}>add</button>
-                        : <button className="btn btn-primary" onClick={(evt) => { evt.preventDefault(); editPost(); }}>update</button>}
+                        : <button className="btn btn-primary" onClick={(evt) => {
+                            evt.preventDefault();
+                            editPost();
+                        }}>update</button>}
                     <button className="btn btn-danger" onClick={cancel}>cancel</button>
                 </div>
             </motion.form>
