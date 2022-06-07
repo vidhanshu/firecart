@@ -98,6 +98,7 @@ function EditPost({ type }) {
     const cancel = (evt) => {
         evt.preventDefault()
         setIsEditingPost(false);
+        setIsEditing(false);
     }
 
     return (
