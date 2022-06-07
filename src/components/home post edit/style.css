@@ -1,3 +1,6 @@
 .edit-prod-form-container{
     z-index: 1500 !important;
 }
+.edit-prod-form-container form{
+    margin-top: 90px;
+}

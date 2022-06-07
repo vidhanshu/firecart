@@ -32,14 +32,22 @@ function EditPost({ type }) {
 
 
 
+    const cancel = (evt) => {
+        evt.preventDefault()
+        if (type) {
+            return setIsEditingPost(false);
+        }
+        setIsEditing(false);
+    }
+
+
     //inserting new product
-    const addPost = async (evt) => {
-        evt.preventDefault();
+    const addPost = async () => {
         if (isEmpty()) {
             toast.error('Please fill up all details!', { autoClose: 2000 })
             return;
         }
-        cancel();
+        setIsEditingPost(false);
         const data = {
             name,
             price,
@@ -94,13 +102,6 @@ function EditPost({ type }) {
 
     }
 
-
-    const cancel = (evt) => {
-        evt.preventDefault()
-        setIsEditingPost(false);
-        setIsEditing(false);
-    }
-
     return (
         <div className='edit-prod-form-container' style={{ zIndex: "3000" }}>
             <motion.form className='edit-prod-form'
@@ -111,12 +112,12 @@ function EditPost({ type }) {
                     scale: 1,
                 }}
                 transition={{
-                    delay: .2,
+                    delay: 0,
                     type: "tween",
                 }}
             >
                 <p className="black-title-lg text-center">
-                    {type === "post" ? 'Edit post' : 'Add post to sell product'}
+                    {type ? 'Edit post' : 'Add post to sell product'}
                 </p>
                 <label htmlFor='name'>name</label>
                 <input autoFocus={true} id='name' type="text" className='form-control' value={name} onChange={(evt) => setName(evt.target.value)} />
@@ -133,8 +134,10 @@ function EditPost({ type }) {
                 <label htmlFor='description'>description</label>
                 <textarea id="description" type="text" className='form-control' value={description} onChange={(evt) => setDescription(evt.target.value)} />
                 <div className="edit-prod-options">
-                    {type !== "post" ?
-                        <button className="btn btn-primary" onClick={addPost}>add</button>
+                    {!type ?
+                        <button className="btn btn-primary"
+                            onClick={(evt) => { evt.preventDefault(); addPost() }}
+                        >add</button>
                         : <button className="btn btn-primary" onClick={(evt) => {
                             evt.preventDefault();
                             editPost();

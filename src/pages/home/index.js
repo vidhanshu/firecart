@@ -92,7 +92,7 @@ function Home() {
     return (
         <>
             {isEditing && <postContext.Provider value={context_to_be_send}> <EditPost /></postContext.Provider>}
-            {isEditingPost && <postContext.Provider value={context_to_be_send} type="post"> <EditPost /></postContext.Provider>}
+            {isEditingPost && <postContext.Provider value={context_to_be_send} > <EditPost type="post" /></postContext.Provider>}
             <Layout>
                 <button className="btn btn-primary" onClick={() => { clear(); setIsEditing(true) }}>Add post</button>
                 <Posts setId={setId} user={current_user} categories={categories} name={name} brand={brand} category={category} price={price} sale_price={sale_price} description={description} image={image} setIsEditingPost={setIsEditingPost} isEditingPost={isEditingPost} fill={fill} />
