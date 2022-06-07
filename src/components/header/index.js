@@ -37,7 +37,7 @@ const Header = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className='ms-auto'>
                         <Link title="shop" className='option hover-grow' to="/shop"><BsShop /></Link>
-                        <span title="logout" className='logout hover-grow' onClick={logout}><AiOutlineLogout /></span>
+                        <span title="logout" className='logout' onClick={logout}><AiOutlineLogout fill='red'/></span>
                         <Link title="profile" className='option hover-grow' to="/profile"><BiUser /></Link>
                         <Link title="cart" className='option' to="/cart">
                             <AiOutlineShoppingCart className='hover-grow' />

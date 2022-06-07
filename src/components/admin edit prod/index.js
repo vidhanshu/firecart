@@ -27,7 +27,8 @@ function EditProduct() {
         _id,
         setIsLoading,
         newProduct,
-        setNewProduct
+        setNewProduct,
+        filter_options
     } = useContext(product_context);
 
     //handler cancel
@@ -61,6 +62,11 @@ function EditProduct() {
                 category,
                 brand,
             })
+            if (!check_if_this_cat_already_exists(category)) {
+                const newCats = [...filter_options, category];
+                await updateDoc(doc(db, 'categories', 'cats'), newCats);
+            }
+
             setIsLoading(false)
             toast.success("data updated successfully!", { autoClose: 2000 })
         } catch (error) {
@@ -86,10 +92,18 @@ function EditProduct() {
             imageURL: image,
             description,
             createdAt: new Date().toUTCString(),
+            createdBy:{
+                name:"admin",
+                profile_image:"https://cdn.onlinewebfonts.com/svg/img_574041.png"
+            },
         }
         try {
             setIsLoading(true)
             await addDoc(collection(db, "products"), data);
+            if (!check_if_this_cat_already_exists(category)) {
+                const newCats = [...filter_options, category];
+                await updateDoc(doc(db, 'categories', 'cats'), { categories: newCats });
+            }
             toast.success("product added", { autoClose: 2000 });
             setIsLoading(false)
         } catch (error) {
@@ -98,6 +112,9 @@ function EditProduct() {
         }
     }
 
+    const check_if_this_cat_already_exists = (cat) => {
+        return filter_options.includes(cat);
+    }
     return (
         <>
             <div className='edit-prod-form-container'>

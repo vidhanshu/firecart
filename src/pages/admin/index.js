@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext, useContext } from 'react'
 import "./style.css"
 import { db } from "../../firebaseconfig";
-import { collection, doc, orderBy, deleteDoc, onSnapshot, query } from "@firebase/firestore"
+import { collection, doc, orderBy, deleteDoc, onSnapshot, query, updateDoc } from "@firebase/firestore"
 import EditProduct from '../../components/admin edit prod';
 import { context } from '../../App';
 import { toast } from "react-toastify"
@@ -107,23 +107,14 @@ function Admin() {
 
 
     //filter options
-    const [filter_options, setFiltered_options] = useState([]);
+    const [filter_options, setFilter_options] = useState([]);
 
     //fetching all the categories stored in the firestore
     const fetch_all_categories = () => {
-        onSnapshot(collection(db, "categories"), (snapshot) => {
-            let categories = [];
-            snapshot.forEach((cat) => {
-                categories = [...categories, cat.data().category];
-            })
-            setFiltered_options(categories);
+        onSnapshot(doc(db, "categories", 'cats'), (snapshot) => {
+            setFilter_options(snapshot.data().categories);
         })
     }
-
-
-
-
-
 
 
     //fetching all the data from the firestore
@@ -132,18 +123,19 @@ function Admin() {
             const q = query(collection(db, "products"), orderBy("createdAt", "desc"))
             onSnapshot(q, (querySnapshot) => {
                 let all_products = []
+                let all_categories = new Set([]);
                 querySnapshot.forEach(product => {
+                    all_categories.add(product.data().category);
                     all_products = [...all_products, { _id: product.id, ...product.data() }];
                 })
+                const categories_to_be_added_to_firebase = [];
+                all_categories.forEach((cat) => {
+                    categories_to_be_added_to_firebase.push(cat);
+                })
+
                 setProducts(all_products);
                 setFiltered_array(all_products)
             })
-
-            //this below syntax was non real time doesn't keep watch on updated but above syntax track changes in db
-            // const snapshot = await getDocs(collection(db, 'products'));
-            // snapshot.forEach((product) => {
-            //     setProducts(cur => [...cur, { _id: product.id, ...product.data() }])
-            // })
 
         } catch (error) {
             console.log(error);
@@ -178,7 +170,7 @@ function Admin() {
     const delete_product = async (id_bhej) => {
         try {
             setIsLoading(true);
-            await deleteDoc(doc(db, 'products', id_bhej));
+            await deleteDoc(doc(db, 'products', id_bhej));            
             setIsLoading(false);
             toast.success("Product Deleted!", { autoClose: 2000 });
         } catch (error) {
@@ -203,7 +195,8 @@ function Admin() {
         _id,
         setIsLoading,
         newProduct,
-        setNewProduct
+        setNewProduct,
+        filter_options
     }
 
     return (

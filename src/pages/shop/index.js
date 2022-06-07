@@ -62,12 +62,8 @@ function Shop() {
 
   //fetching all the categories stored in the firestore
   const fetch_all_categories = () => {
-    onSnapshot(collection(db, "categories"), (snapshot) => {
-      let categories = [];
-      snapshot.forEach((cat) => {
-        categories = [...categories, cat.data().category];
-      })
-      setFiltered_options(categories);
+    onSnapshot(doc(db, "categories", 'cats'), (snapshot) => {
+      setFiltered_options(snapshot.data().categories);
     })
   }
 
