@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { context } from '../../App';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, browserSessionPersistence, setPersistence } from "@firebase/auth";
-import {motion} from 'framer-motion'
+import { motion } from 'framer-motion'
 function Authentication() {
   const [isRegisterForm, setIsRegisterForm] = useState(false);
   const [email, setEmail] = useState('')
@@ -26,7 +26,10 @@ function Authentication() {
     }
     try {
       setIsLoading(true)
-      await createUserWithEmailAndPassword(auth, email, password);
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      //jugad for login of user until he logs out
+      localStorage.setItem("auth_user", user.user.email);
+      localStorage.setItem("current_user", { name: "unknown" });
       setIsLoading(false);
       navigate('/');
     }
@@ -50,6 +53,7 @@ function Authentication() {
       const user = await signInWithEmailAndPassword(auth, email, password);
       //jugad for login of user until he logs out
       localStorage.setItem("auth_user", user.user.email);
+      localStorage.setItem("current_user", '{ "name": "unknown" }');
       setIsLoading(false)
       navigate('/')
     } catch (err) {

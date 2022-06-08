@@ -29,10 +29,13 @@ function Home() {
 
 
     useEffect(() => {
-        getDoc(doc(db, 'users', email_current_user))
-            .then((res) => { localStorage.setItem('current_user', JSON.stringify(res.data())) })
-            .catch((err) => { console.log(err) })
-
+        onSnapshot(doc(db, 'users', email_current_user), (res) => {
+            if (res.exists()) {
+                localStorage.setItem('current_user', JSON.stringify(res.data()))
+            } else {
+                console.log('not exists')
+            }
+        })
         fetch_all_categories();
     }, [])
 

@@ -200,12 +200,19 @@ function EditProfileForm() {
                         scale: 1,
                     }}
                     transition={{
-                        delay:0,
-                        type:"tween",
-                        stiffness:100,
+                        delay: 0,
+                        type: "tween",
+                        stiffness: 100,
                     }}
                 >
-                    <div className="white-back-button" onClick={() => setIsEditing(false)}>
+                    <div className="white-back-button" onClick={() => {
+                        if (isCreatingNewProfile) {
+                            navigate("/");
+                        } else {
+                            setIsEditing(false);
+                        }
+                    }
+                    }>
                         <IoMdArrowRoundBack />
                     </div>
                     <p className="black-title-lg text-center">

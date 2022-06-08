@@ -12,7 +12,7 @@ function Posts({ setIsEditingPost, setId, fill }) {
 
 
     //const current_user
-    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('current_user')) || { name: "unknown" });
+    const [currentUser, setCurrentUser] = useState(localStorage.getItem('current_user'));
     //const navigate
     const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ function Posts({ setIsEditingPost, setId, fill }) {
                 setIsLoading(false)
             })
         } catch (error) {
-            console.log("error",error)
+            console.log("error", error)
             setIsLoading(false)
         }
     }
@@ -55,6 +55,7 @@ function Posts({ setIsEditingPost, setId, fill }) {
     }
 
 
+    console.log(currentUser)
     //context 
     const { addToCart, setIsLoading } = useContext(context);
 
@@ -83,7 +84,7 @@ function Posts({ setIsEditingPost, setId, fill }) {
                                                 <div className="post-overlay">
                                                     <h4>$ {post.sale_price ? post.sale_price : post.price}</h4>
                                                     <div className="btn-group">
-                                                        {post.createdBy.name === currentUser.name ?
+                                                        {post.createdBy.name === JSON.parse(currentUser).name ?
                                                             <>
                                                                 <button className="btn btn-danger" onClick={() => delete_product(post._id)}>delete</button>
                                                                 <button onClick={() => navigate(`/product-info/${post._id}`)} className='btn btn-primary'>View</button>
