@@ -12,7 +12,7 @@ function Posts({ setIsEditingPost, setId, fill }) {
 
 
     //const current_user
-    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('current_user')));
+    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('current_user')) || { name: "unknown" });
     //const navigate
     const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ function Posts({ setIsEditingPost, setId, fill }) {
                 setIsLoading(false)
             })
         } catch (error) {
-            console.log(error)
+            console.log("error",error)
             setIsLoading(false)
         }
     }

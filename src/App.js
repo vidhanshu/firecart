@@ -111,9 +111,9 @@ export const ProtectedRoutes = ({ children }) => {
 
   const user = auth.currentUser;
 
-  const user_from_local_store = localStorage.getItem('auth_user');
+  const user_from_local_store = JSON.parse(localStorage.getItem('auth_user'));
 
-  if (user || user_from_local_store !== 'null') {
+  if (user !== null || user_from_local_store !== null) {
     return children;
   } else {
     return <Navigate to="/auth" />
