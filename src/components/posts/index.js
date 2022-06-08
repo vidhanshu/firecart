@@ -8,8 +8,11 @@ import { deleteDoc, doc } from 'firebase/firestore';
 import { toast } from 'react-toastify'
 
 import "./style.css"
-function Posts({ currentUser, setIsEditingPost, setId, fill }) {
+function Posts({ setIsEditingPost, setId, fill }) {
 
+
+    //const current_user
+    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('current_user')));
     //const navigate
     const navigate = useNavigate();
 

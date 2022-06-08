@@ -11,9 +11,6 @@ function Home() {
     const [isEditingPost, setIsEditingPost] = useState(false);
     const [id, setId] = useState();
 
-    //current user details
-    const [current_user, setCurrent_user] = useState();
-
     //getting the user email which was stored at the time of login from local storage
     const [email_current_user, set_email_current_user] = useState((auth.currentUser ? auth.currentUser.email : localStorage.getItem('auth_user')));
 
@@ -32,9 +29,10 @@ function Home() {
 
 
     useEffect(() => {
-        getDoc(doc(db, 'users', 'vidhanshu7218555039@gmail.com'))
-            .then((res) => { setCurrent_user(res.data()) })
+        getDoc(doc(db, 'users', email_current_user))
+            .then((res) => { localStorage.setItem('current_user', JSON.stringify(res.data())) })
             .catch((err) => { console.log(err) })
+
         fetch_all_categories();
     }, [])
 
@@ -78,7 +76,6 @@ function Home() {
         sale_price, setSale_price,
         isEditing, setIsEditing,
         setImage, image,
-        current_user,
         categories,
         setIsEditingPost, isEditingPost, id, setId
     }
@@ -89,7 +86,7 @@ function Home() {
             {isEditingPost && <postContext.Provider value={context_to_be_send} > <EditPost type="post" /></postContext.Provider>}
             <Layout>
                 <button className="btn btn-primary" onClick={() => { clear(); setIsEditing(true) }}>Add post</button>
-                <Posts setId={setId} currentUser={current_user} categories={categories} name={name} brand={brand} category={category} price={price} sale_price={sale_price} description={description} image={image} setIsEditingPost={setIsEditingPost} isEditingPost={isEditingPost} fill={fill} />
+                <Posts setId={setId} categories={categories} name={name} brand={brand} category={category} price={price} sale_price={sale_price} description={description} image={image} setIsEditingPost={setIsEditingPost} isEditingPost={isEditingPost} fill={fill} />
             </Layout>
         </>
     )

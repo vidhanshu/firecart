@@ -200,9 +200,9 @@ function EditProfileForm() {
                         scale: 1,
                     }}
                     transition={{
-                        delay:.2,
-                        type:"spring",
-                        stiffness:200,
+                        delay:0,
+                        type:"tween",
+                        stiffness:100,
                     }}
                 >
                     <div className="white-back-button" onClick={() => setIsEditing(false)}>

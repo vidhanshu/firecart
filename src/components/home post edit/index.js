@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion';
 import { useContext, useState } from "react"
 import { toast } from "react-toastify"
 import { postContext } from "../../pages/home"
-import { addDoc, collection, onSnapshot, doc, updateDoc } from "firebase/firestore"
-import { db, auth } from "../../firebaseconfig"
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore"
+import { db } from "../../firebaseconfig"
 
 function EditPost({ type }) {
+
+    //const current_user
+    const [current_user, setCurrent_user] = useState(JSON.parse(localStorage.getItem('current_user')));
 
     const {
         name, setName,
@@ -15,8 +18,8 @@ function EditPost({ type }) {
         category, setCategory,
         brand, setBrand,
         description, setDescription,
-        image, setImage, setIsEditing, current_user,
-        setIsEditingPost, isEditingPost, categories, id
+        image, setImage, setIsEditing,
+        setIsEditingPost, categories, id
     } = useContext(postContext)
 
     //check for empty
@@ -47,7 +50,7 @@ function EditPost({ type }) {
             toast.error('Please fill up all details!', { autoClose: 2000 })
             return;
         }
-        setIsEditingPost(false);
+        setIsEditing(false);
         const data = {
             name,
             price,
