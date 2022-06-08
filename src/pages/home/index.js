@@ -3,7 +3,7 @@ import Layout from "../../components/layout"
 import { db, auth } from "../../firebaseconfig"
 import EditPost from '../../components/home post edit';
 import Posts from '../../components/posts';
-import { addDoc, collection, onSnapshot, doc } from "firebase/firestore"
+import { onSnapshot, doc, getDoc } from "firebase/firestore"
 export const postContext = createContext();
 function Home() {
 
@@ -32,7 +32,9 @@ function Home() {
 
 
     useEffect(() => {
-        get_current_user();
+        getDoc(doc(db, 'users', 'vidhanshu7218555039@gmail.com'))
+            .then((res) => { setCurrent_user(res.data()) })
+            .catch((err) => { console.log(err) })
         fetch_all_categories();
     }, [])
 
@@ -47,15 +49,7 @@ function Home() {
         setImage('https://bit.ly/3x9dBKX');
     }
 
-    //fetching user data from firestore
-    const get_current_user = () => {
-        onSnapshot(doc(db, 'users', email_current_user), (snapshot) => {
-            const user_data = snapshot.data();
-            setCurrent_user(user_data)
-        }, (error) => {
-            console.log(error);
-        })
-    }
+
 
     //fetching all the categories stored in the firestore
     const fetch_all_categories = () => {
@@ -95,7 +89,7 @@ function Home() {
             {isEditingPost && <postContext.Provider value={context_to_be_send} > <EditPost type="post" /></postContext.Provider>}
             <Layout>
                 <button className="btn btn-primary" onClick={() => { clear(); setIsEditing(true) }}>Add post</button>
-                <Posts setId={setId} user={current_user} categories={categories} name={name} brand={brand} category={category} price={price} sale_price={sale_price} description={description} image={image} setIsEditingPost={setIsEditingPost} isEditingPost={isEditingPost} fill={fill} />
+                <Posts setId={setId} currentUser={current_user} categories={categories} name={name} brand={brand} category={category} price={price} sale_price={sale_price} description={description} image={image} setIsEditingPost={setIsEditingPost} isEditingPost={isEditingPost} fill={fill} />
             </Layout>
         </>
     )

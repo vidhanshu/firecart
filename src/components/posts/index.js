@@ -8,7 +8,7 @@ import { deleteDoc, doc } from 'firebase/firestore';
 import { toast } from 'react-toastify'
 
 import "./style.css"
-function Posts({ user, setIsEditingPost, setId, fill }) {
+function Posts({ currentUser, setIsEditingPost, setId, fill }) {
 
     //const navigate
     const navigate = useNavigate();
@@ -80,7 +80,7 @@ function Posts({ user, setIsEditingPost, setId, fill }) {
                                                 <div className="post-overlay">
                                                     <h4>$ {post.sale_price ? post.sale_price : post.price}</h4>
                                                     <div className="btn-group">
-                                                        {post.createdBy.name === user.name ?
+                                                        {post.createdBy.name === currentUser.name ?
                                                             <>
                                                                 <button className="btn btn-danger" onClick={() => delete_product(post._id)}>delete</button>
                                                                 <button onClick={() => navigate(`/product-info/${post._id}`)} className='btn btn-primary'>View</button>
