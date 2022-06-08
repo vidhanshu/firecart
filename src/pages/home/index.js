@@ -30,6 +30,7 @@ function Home() {
 
     useEffect(() => {
         onSnapshot(doc(db, 'users', email_current_user), (res) => {
+            console.log(res.data())
             if (res.exists()) {
                 localStorage.setItem('current_user', JSON.stringify(res.data()))
             } else {

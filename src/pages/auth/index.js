@@ -29,7 +29,7 @@ function Authentication() {
       const user = await createUserWithEmailAndPassword(auth, email, password);
       //jugad for login of user until he logs out
       localStorage.setItem("auth_user", user.user.email);
-      localStorage.setItem("current_user", { name: "unknown" });
+      localStorage.setItem("current_user", '{ "name": "unknown" }');
       setIsLoading(false);
       navigate('/');
     }
