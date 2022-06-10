@@ -89,6 +89,7 @@ function EditProduct() {
             price,
             sale_price,
             category,
+            brand,
             imageURL: image,
             description,
             createdAt: new Date().toUTCString(),
