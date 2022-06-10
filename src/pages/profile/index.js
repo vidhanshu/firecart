@@ -3,7 +3,7 @@ import Layout from '../../components/layout'
 import isProfileExists from '../../utils/isProfileImageExists'
 import "./style.css"
 import { db } from "../../firebaseconfig"
-import { onSnapshot, doc } from "firebase/firestore";
+import { onSnapshot, doc, deleteDoc } from "firebase/firestore";
 import { context } from '../../App';
 import EditProfileForm from '../../components/profile edit';
 import { toast } from 'react-toastify'
@@ -40,12 +40,12 @@ function Profile() {
 
     //fetching the data of the user as soon as component mounts
     useEffect(() => {
-        
+
         setIsLoading(true);
         get_current_user();
-        
+
         //getting updated the loading from orders component
-        
+
         // /****isLoading jugad cause of late state updates****** */
         // const id = setTimeout(() => {
         //     setIsLoading(false);
@@ -64,6 +64,15 @@ function Profile() {
         }, (error) => {
             console.log(error);
         })
+    }
+
+    //delete user profile 
+    const deleteProfile = async () => {
+        try {
+            await deleteDoc(doc(db, 'users', email_current_user));
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     //fill all the details to the states
@@ -107,6 +116,9 @@ function Profile() {
                             <div className="options-container">
                                 <button className="btn btn-primary mt-1" onClick={() => setIsEditing(true)}>
                                     Edit profile
+                                </button>
+                                <button className="btn btn-danger mt-1" onClick={deleteProfile}>
+                                    Delete profile
                                 </button>
                                 <p className='yellow-highlighted-title'>
                                     total shopping ${total_shopping}
