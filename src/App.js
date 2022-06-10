@@ -23,6 +23,7 @@ import Loader from "./components/loader"
 //authentication
 import { auth } from "./firebaseconfig"
 import Developer from './pages/developer';
+import UserProfile from './pages/user-profile';
 //global context
 export const context = createContext([]);
 function App() {
@@ -93,6 +94,7 @@ function App() {
           <Route path='/payment' exact element={<ProtectedRoutes><Payment /></ProtectedRoutes>} />
           <Route path='/product-info/:id' exact element={<ProtectedRoutes><ProductInfo /></ProtectedRoutes>} />
           <Route path="/profile" exact element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
+          <Route path="/user-profile/:email" exact element={<ProtectedRoutes><UserProfile /></ProtectedRoutes>} />
           <Route path="/profile:email" exact element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
           <Route path="/admin/:id" exact element={<ProtectedRoutes><Admin /></ProtectedRoutes>} />
           <Route path='/auth' exact element={<Authentication />} />

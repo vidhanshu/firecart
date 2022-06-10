@@ -4,12 +4,14 @@ import { useContext, useState } from "react"
 import { toast } from "react-toastify"
 import { postContext } from "../../pages/home"
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore"
-import { db } from "../../firebaseconfig"
+import { db, auth } from "../../firebaseconfig"
 
 function EditPost({ type }) {
 
     //const current_user
     const [current_user, setCurrent_user] = useState(JSON.parse(localStorage.getItem('current_user')));
+    //getting the user email which was stored at the time of login from local storage
+    const [email_current_user, set_email_current_user] = useState((auth.currentUser ? auth.currentUser.email : localStorage.getItem('auth_user')));
 
     const {
         name, setName,
@@ -61,6 +63,7 @@ function EditPost({ type }) {
             description,
             createdAt: new Date().toLocaleString(),
             createdBy: current_user,
+            actual_email: email_current_user,
         }
         try {
             // setIsLoading(true)

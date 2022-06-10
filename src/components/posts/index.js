@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import stringShortner from '../../utils/stringShortner'
 import { deleteDoc, doc } from 'firebase/firestore';
 import { toast } from 'react-toastify'
-
+import { Link } from 'react-router-dom'
 import "./style.css"
 function Posts({ setIsEditingPost, setId, fill }) {
 
@@ -28,7 +28,7 @@ function Posts({ setIsEditingPost, setId, fill }) {
     const get_all_posts = () => {
         setIsLoading(true)
         try {
-            const q = query(collection(db, "products"), orderBy("createdAt", "desc"))
+            const q = query(collection(db, "products"), orderBy("createdAt", "asc"))
 
             onSnapshot(q, (querySnapshot) => {
                 let products = [];
@@ -69,10 +69,18 @@ function Posts({ setIsEditingPost, setId, fill }) {
                                 return (
                                     <div key={post._id} className='product-card'>
                                         <div className="user_details">
-                                            <div className="post-header">
-                                                {post.createdBy ? post.createdBy.name : 'unknown'}
-                                                <img width="30px" height="30px" src={post.createdBy ? post.createdBy.profile_image : 'https://cdn.onlinewebfonts.com/svg/img_574041.png'} alt="" className="user-icon" />
-                                            </div>
+                                            {
+                                                post.createdBy.email ?
+                                                    <Link className='post-header' to={`/user-profile/${post.actual_email}`}>
+                                                        {post.createdBy ? post.createdBy.name : 'unknown'}
+                                                        <img style={{ border: '2px solid white' }} width="30px" height="30px" src={post.createdBy.name ? post.createdBy.profile_image : 'https://cdn.onlinewebfonts.com/svg/img_574041.png'} alt="" className="user-icon" />
+                                                    </Link> :
+                                                    <div className="post-header">
+                                                        {post.createdBy ? post.createdBy.name : 'unknown'}
+                                                        <img style={{ border: '2px solid white' }} width="30px" height="30px" src={post.createdBy.name ? post.createdBy.profile_image : 'https://cdn.onlinewebfonts.com/svg/img_574041.png'} alt="" className="user-icon" />
+                                                    </div>
+                                            }
+
                                             <p className='small-title'>posted at {post.createdAt.toString()}</p>
                                         </div>
                                         <div className='small-title prod-name'>

@@ -80,6 +80,11 @@ a:hover {
   margin: 20px 0px;
 }
 
+.blue-title {
+  color: rgb(255, 0, 0);
+  margin: 20px 0px;
+}
+
 .yellow-highlighted-title {
   color: rgb(255, 42, 0);
   font-weight: 500;

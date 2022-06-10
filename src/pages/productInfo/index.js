@@ -73,6 +73,7 @@ function ProductInfo() {
                   <br />
                   sale price: ${sale_price}
                   <br />
+                  <p className="red-title">you will save: ${(price - sale_price).toPrecision(4)}</p>
                   <span className='red-title'>limited time offer</span>
                 </p> :
                 <p className='black-title'>price: ${price}</p>

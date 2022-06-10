@@ -1,14 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
+//layout
 import Layout from '../../components/layout'
+//icons
 import { IoMdArrowRoundBack } from "react-icons/io"
+//navigation
 import { useNavigate } from "react-router-dom"
+//stylesheet
 import "./style.css"
+//firebase
 import { db, auth } from "../../firebaseconfig"
-
-import { setDoc, doc, addDoc, collection, updateDoc, collectionGroup } from 'firebase/firestore'
-
+import { addDoc, collection } from 'firebase/firestore'
+//alerts
 import { toast } from "react-toastify"
+//contexts
 import { context } from '../../App'
+// import nodemailer from 'nodemailer';
+
 function Payment() {
     const navigate = useNavigate();
 
