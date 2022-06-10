@@ -28,7 +28,7 @@ function Posts({ setIsEditingPost, setId, fill }) {
     const get_all_posts = () => {
         setIsLoading(true)
         try {
-            const q = query(collection(db, "products"), orderBy("createdAt", "asc"))
+            const q = query(collection(db, "products"), orderBy("createdAt", "desc"))
 
             onSnapshot(q, (querySnapshot) => {
                 let products = [];

@@ -92,7 +92,7 @@ function EditProduct() {
             brand,
             imageURL: image,
             description,
-            createdAt: new Date().toUTCString(),
+            createdAt: new Date().toLocaleString(),
             createdBy:{
                 name:"admin",
                 profile_image:"https://cdn.onlinewebfonts.com/svg/img_574041.png"
