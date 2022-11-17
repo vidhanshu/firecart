@@ -1,29 +1,25 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import Shop from './pages/shop';
-import Cart from './pages/cart';
-import Authentication from './pages/auth'
-import ProductInfo from './pages/productInfo'
-import Admin from './pages/admin';
-import CheckOut from './pages/checkout';
-import Payment from './pages/payment';
-import Home from './pages/home';
-import Profile from './pages/profile';
-import Error from "./pages/404"
+import 'react-toastify/dist/ReactToastify.css';
 
-//hooks
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+
+import Admin from './pages/admin';
+import Authentication from './pages/auth'
+import Cart from './pages/cart';
+import CheckOut from './pages/checkout';
+import Developer from './pages/developer';
+import Error from "./pages/404"
+import Home from './pages/home';
+import Loader from "./components/loader"
+import Payment from './pages/payment';
+import ProductInfo from './pages/productInfo'
+import Profile from './pages/profile';
+import Shop from './pages/shop';
+import UserProfile from './pages/user-profile';
+import { auth } from "./firebaseconfig"
 import { createContext } from 'react';
 import { useState } from 'react';
 
-//for toasts
-import { ToastContainer, toast } from 'react-toastify';
-//import once use everywhere toast
-import 'react-toastify/dist/ReactToastify.css';
-//for loading throughout website
-import Loader from "./components/loader"
-//authentication
-import { auth } from "./firebaseconfig"
-import Developer from './pages/developer';
-import UserProfile from './pages/user-profile';
 //global context
 export const context = createContext([]);
 function App() {

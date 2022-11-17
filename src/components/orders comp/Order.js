@@ -1,9 +1,12 @@
-import { doc, getDoc, getDocs, collection, query, orderBy } from 'firebase/firestore';
-import React, { useContext, useEffect, useState } from 'react'
-import { db, auth } from '../../firebaseconfig';
 import "./Order.css"
+
+import React, { useContext, useEffect, useState } from 'react'
+import { auth, db } from '../../firebaseconfig';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+
 import { context } from '../../App';
 import { editProfileContext } from '../../pages/profile';
+
 function Order() {
 
     //const

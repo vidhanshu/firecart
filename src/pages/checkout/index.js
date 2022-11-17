@@ -1,14 +1,16 @@
-import React, { useContext, useEffect, useState, createContext } from 'react'
-import Layout from '../../components/layout'
-import { IoMdArrowRoundBack } from "react-icons/io"
-import { useNavigate, Link } from "react-router-dom"
+import "./style.css"
+
+import { Link, useNavigate } from "react-router-dom"
+import React, { createContext, useContext, useEffect, useState } from 'react'
+import { auth, db } from "../../firebaseconfig"
 import { doc, onSnapshot } from "firebase/firestore"
-import { db, auth } from "../../firebaseconfig"
+
+import CheckOutDetailsEditForm from '../../components/check out page form'
+import { IoMdArrowRoundBack } from "react-icons/io"
+import Layout from '../../components/layout'
 import { context } from '../../App'
 import { toast } from 'react-toastify'
-import CheckOutDetailsEditForm from '../../components/check out page form'
-import "./style.css"
-import {motion} from 'framer-motion';
+
 export const checkoutcontext = createContext();
 
 function CheckOut() {

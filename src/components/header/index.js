@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from "react-router-dom"
-import { Navbar, Nav } from 'react-bootstrap';
-import { AiOutlineShoppingCart, AiOutlineLogout } from "react-icons/ai"
-import { BiUser } from "react-icons/bi"
-import {BsShop} from "react-icons/bs"
-import { useContext } from 'react';
-import { context } from '../../App';
-import { getAuth, signOut } from "@firebase/auth";
-import { toast } from 'react-toastify';
 import "./style.css";
 
+import { AiOutlineLogout, AiOutlineShoppingCart } from "react-icons/ai"
+import { Link, useNavigate } from "react-router-dom"
+import { Nav, Navbar } from 'react-bootstrap';
+import { getAuth, signOut } from "@firebase/auth";
+
+import { BiUser } from "react-icons/bi"
+import {BsShop} from "react-icons/bs"
+import React from 'react';
+import { context } from '../../App';
+import { toast } from 'react-toastify';
+import { useContext } from 'react';
 
 const Header = () => {
     const navigator = useNavigate();

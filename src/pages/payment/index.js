@@ -20,7 +20,7 @@ function Payment() {
     const navigate = useNavigate();
 
     //getting the user email which was stored at the time of login from local storage
-    const [email_current_user, set_email_current_user] = useState((auth.currentUser ? auth.currentUser.email : localStorage.getItem('auth_user')));
+    const [email_current_user] = useState((auth.currentUser ? auth.currentUser.email : localStorage.getItem('auth_user')));
 
 
     //for the data of the cart and performing operations on it

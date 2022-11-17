@@ -1,14 +1,15 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import Layout from '../../components/layout'
-import isProfileExists from '../../utils/isProfileImageExists'
 import "./style.css"
-import { db } from "../../firebaseconfig"
-import { onSnapshot, doc, deleteDoc } from "firebase/firestore";
-import { context } from '../../App';
+
+import React, { createContext, useContext, useEffect, useState } from 'react'
+import { deleteDoc, doc, onSnapshot } from "firebase/firestore";
+
 import EditProfileForm from '../../components/profile edit';
-import { toast } from 'react-toastify'
-import { auth } from '../../firebaseconfig'
+import Layout from '../../components/layout'
 import Order from '../../components/orders comp/Order'
+import { auth } from '../../firebaseconfig'
+import { context } from '../../App';
+import { db } from "../../firebaseconfig"
+import isProfileExists from '../../utils/isProfileImageExists'
 
 export const editProfileContext = createContext();
 

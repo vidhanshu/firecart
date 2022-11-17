@@ -1,9 +1,11 @@
-import React, { useState, useContext } from 'react'
-import Header from '../header'
-import Footer from '../footer'
 import "./style.css"
-import { context } from '../../App'
+
+import React, { useContext } from 'react'
+
 import AdminLogin from '../adminLogin'
+import Footer from '../footer'
+import Header from '../header'
+import { context } from '../../App'
 
 function Layout({ children }) {
 
